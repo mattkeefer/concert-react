@@ -1,0 +1,18 @@
+.card {
+  background-color: black;
+  color: white;
+}
+
+.card:hover {
+  filter: brightness(120%);
+  transform: scale(102%);
+}
+
+.card-title {
+  color: #F2305F;
+  font-weight: bolder;
+}
+
+.card-text-accent {
+  color: grey;
+}
