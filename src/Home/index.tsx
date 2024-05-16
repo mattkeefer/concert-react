@@ -1,7 +1,7 @@
 import ConcertCard from "../Concert/Card";
-import events from "../events";
-import {useState} from "react";
-import "./index.css"
+import {useEffect, useState} from "react";
+import "./index.css";
+import * as client from "../Concert/client";
 
 export default function Home() {
 
@@ -10,6 +10,31 @@ export default function Home() {
     following: false,
     simple: false,
   });
+
+  const [events, setEvents] = useState<[client.event]>([{
+    identifier: "",
+    performer: [{name: ""}],
+    location: {
+      name: "",
+      address: {
+        addressLocality: "",
+        addressRegion: {
+          alternateName: "",
+        },
+      },
+    },
+    startDate: "",
+    image: "",
+  }]);
+
+  const fetchConcerts = async () => {
+    const e = await client.getExampleConcerts();
+    setEvents(e.events);
+  }
+
+  useEffect(() => {
+    fetchConcerts();
+  }, []);
 
   return (
       <div className="container py-3">
@@ -24,13 +49,13 @@ export default function Home() {
           <div className="form-check form-check-inline form-switch mx-3 float-end">
             <input className="form-check-input" type="checkbox" role="switch"
                    id="simpleSwitch" checked={filters.simple}
-                   onClick={() => setFilters({...filters, simple: !filters.simple})}/>
+                   onChange={() => setFilters({...filters, simple: !filters.simple})}/>
             <label className="form-check-label" form="simpleSwitch">Simple View</label>
           </div>
         </div>
-        <div className="d-flex flex-wrap justify-content-center my-2">
-          {!filters.simple && events.events.map((event) => (
-                  <ConcertCard cardDetails={{
+        <div className="d-flex flex-wrap justify-content-md-between justify-content-center my-2">
+          {!filters.simple && events && events.map((event) => (
+                  <ConcertCard key={event.identifier} cardDetails={{
                     concertId: event.identifier,
                     title: event.performer[0].name,
                     venue: event.location.name,
@@ -40,9 +65,9 @@ export default function Home() {
                   }}/>
               )
           )}
-          {filters.simple && <div className="card-group">
+          {filters.simple && events && <div className="card-group">
             <ul className="list-group list-group-horizontal">
-              {events.events.map((event, i) => (
+              {events.map((event, i) => (
                       <li key={'event' + i}>
                         <ConcertCard cardDetails={{
                           concertId: event.identifier,

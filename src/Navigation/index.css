@@ -1,0 +1,12 @@
+.text-accent {
+  color: var(--accent-color);
+}
+
+.text-accent:hover {
+  color: var(--accent-color);
+  cursor: default;
+}
+
+.nav-logo {
+  height: 3em;
+}

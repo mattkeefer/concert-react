@@ -16,7 +16,7 @@ export default function ConcertCard({cardDetails}: {
   const [source, id] = cardDetails.concertId.split(":");
 
   return (
-      <button className="btn p-0 rounded-4 text-start m-2"
+      <button className="btn p-0 rounded-4 text-start my-2"
               onClick={() => navigate(`/Concert/${source}/${id}`)}>
         <div className="card rounded-4" style={{width: "14rem"}}>
           <img src={cardDetails.image} className="card-img-top rounded-top-4"
