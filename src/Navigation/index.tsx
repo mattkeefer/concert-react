@@ -55,7 +55,9 @@ export default function Navigation() {
           <ul className="navbar-nav justify-content-center">
             {currUser._id !== null ? secureLinks.map((link, i) => (
                 <li key={link.label} className="nav-item">
-                  <Link className="nav-link" to={link.location}>{link.label}</Link>
+                  <Link
+                      className={path.includes(link.label) ? "font-weight-bold nav-link active" : "nav-link"}
+                      to={link.location}>{link.label}</Link>
                 </li>
             )) : unsecureLinks.map((link, i) => (
                 <li key={link.label}

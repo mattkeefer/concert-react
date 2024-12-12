@@ -24,13 +24,15 @@ export default function ConcertCard({cardDetails}: {
           <div className="card-body">
             <h5 className="card-title text-nowrap text-truncate">{cardDetails.title}</h5>
             <ul className="list-group list-group-flush list-unstyled">
-              <li className="card-text">{cardDetails.date.toDateString().slice(0, -5)}</li>
+              <li className="card-text">{cardDetails.date.toDateString().slice(0, -5)} &#8226; {
+                cardDetails.date.toLocaleTimeString().split(":")[0]}:{
+                cardDetails.date.toLocaleTimeString().split(":")[1]} PM
+              </li>
               <li className="card-text text-nowrap text-truncate">{cardDetails.venue}</li>
-              <li className="card-text card-text-accent">{cardDetails.city}</li>
+              <li className="card-text card-text-accent text-nowrap text-truncate">{cardDetails.city}</li>
             </ul>
           </div>
         </div>
       </button>
-
-  )
+  );
 }

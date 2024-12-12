@@ -8,6 +8,8 @@ import Login from "./Account/Login";
 import {Provider} from "react-redux";
 import store from "./Store";
 import {PersistGate} from "redux-persist/integration/react";
+import ConcertDetailsScreen from "./Concert/DetailsScreen";
+import Profile from "./Profile";
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
                 <Route path="/Home" element={<Home/>}/>
                 <Route path="/Login" element={<Login/>}/>
                 <Route path="/Register" element={<Register/>}/>
+                <Route path="/Concert/:source/:eventId" element={<ConcertDetailsScreen/>}/>
+                <Route path="/Profile/:userId" element={<Profile/>}/>
               </Routes>
             </HashRouter>
           </PersistGate>

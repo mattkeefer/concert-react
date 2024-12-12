@@ -71,3 +71,17 @@ export const logout = async () => {
   );
   return response.data;
 };
+
+export interface user {
+  _id: string,
+  username: string,
+  password: string,
+  firstName: string,
+  lastName: string,
+  email: string,
+  role: string,
+  following: string[],
+  followers: string[],
+  interested: string[],
+  attending: string[],
+}
