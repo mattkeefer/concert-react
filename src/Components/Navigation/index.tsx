@@ -2,10 +2,10 @@ import {useLocation, useNavigate} from "react-router";
 import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import "./index.css";
-import {UserState} from "../Store";
+import {UserState} from "../../Store";
 import {useDispatch, useSelector} from "react-redux";
-import * as client from "../Users/client";
-import {resetUser} from "../Users/reducer";
+import * as client from "../../Clients/userClient";
+import {resetUser} from "../../Clients/userReducer";
 
 export default function Navigation() {
   const user = useSelector((state: UserState) => state.userReducer.user);

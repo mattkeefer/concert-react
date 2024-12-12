@@ -1,7 +1,3 @@
-:root {
-  --accent-color: #F2305F;
-}
-
 .card-group {
   overflow-x: auto;
   white-space: nowrap;
@@ -14,7 +10,7 @@
 .form-switch .form-check-input:focus {
   border-color: rgba(0, 0, 0, 0.25);
   outline: 0;
-  box-shadow: 0 0 2px 4px rgba(242, 48, 95, 0.25);
+  box-shadow: 0 0 2px 4px rgba(251, 131, 52, 0.25);
   background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba(0,0,0,0.25)'/></svg>");
 }
 .form-switch .form-check-input:checked {

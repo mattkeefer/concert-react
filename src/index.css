@@ -16,3 +16,7 @@ code {
 root {
   background-color: #121212;
 }
+
+:root {
+  --accent-color: #FB8334;
+}

@@ -1,14 +1,12 @@
 import {useParams} from "react-router";
 import {useSelector} from "react-redux";
-import {UserState} from "../Store";
-import * as userClient from "../Users/client";
-import * as concertClient from "../Concert/client";
-import * as connectClient from "../Connect/client";
+import {UserState} from "../../Store";
+import * as userClient from "../../Clients/userClient";
+import * as concertClient from "../../Clients/concertClient";
 import {useEffect, useState} from "react";
 import {FaCheck, FaPlus, FaUser} from "react-icons/fa"
 import "./index.css"
-import ConcertCard from "../Concert/Card";
-import {parseConcertFromEvent} from "../Concert/client";
+import ConcertCard from "../../Components/Card";
 
 export default function Profile() {
   const {userId} = useParams();
@@ -26,16 +24,11 @@ export default function Profile() {
     role: "",
     username: ""
   });
-  const [interested, setInterested] = useState<concertClient.Event[]>();
-  const [attending, setAttending] = useState<concertClient.Event[]>();
+  const [savedConcerts, setSavedConcerts] = useState<concertClient.Concert[]>();
 
   const fetchProfile = async () => {
     const u = await userClient.profile(userId as string);
     setProfile(u);
-    const promises = [u.interested, u.attending];
-    const [ints, atts] = await Promise.all(promises.map(p => concertClient.getConcertsByIds(p)));
-    setInterested(ints);
-    setAttending(atts);
   }
 
   useEffect(() => {
@@ -43,21 +36,21 @@ export default function Profile() {
   }, [userId]);
 
   const followUser = async () => {
-    try {
-      const res = await connectClient.followUser(userId);
-      setProfile(res);
-    } catch (error) {
-      console.log(error);
-    }
+    // try {
+    //   const res = await userClient.followUser(userId);
+    //   setProfile(res);
+    // } catch (error) {
+    //   console.log(error);
+    // }
   }
 
   const unfollowUser = async () => {
-    try {
-      const res = await connectClient.unfollowUser(userId);
-      setProfile(res);
-    } catch (error) {
-      console.log(error);
-    }
+    // try {
+    //   const res = await userClient.unfollowUser(userId);
+    //   setProfile(res);
+    // } catch (error) {
+    //   console.log(error);
+    // }
   }
 
   return (
@@ -96,29 +89,12 @@ export default function Profile() {
           </div>
           <div className="d-flex flex-wrap bg-black rounded-4 p-4">
             <div className="col-12 mb-4">
-              <h4>Attending</h4>
-              {attending && attending.length > 0 ? <div className="card-group">
+              <h4>Saved Concerts</h4>
+              {savedConcerts && savedConcerts.length > 0 ? <div className="card-group">
                     <ul className="list-group list-group-horizontal">
-                      {attending.map((event, i) => (
-                              <li key={'att' + i}>
-                                <ConcertCard cardDetails={parseConcertFromEvent(event)}/>
-                              </li>
-                          )
-                      )}
-                    </ul>
-                  </div> :
-                  <div>
-                    <h6 className="text-dark-emphasis">No concerts yet...</h6>
-                  </div>}
-            </div>
-            <div className="col-12">
-              <h4>Interested</h4>
-
-              {interested && interested.length > 0 ? <div className="card-group">
-                    <ul className="list-group list-group-horizontal">
-                      {interested.map((event, i) => (
-                              <li key={'att' + i}>
-                                <ConcertCard cardDetails={parseConcertFromEvent(event)}/>
+                      {savedConcerts.map((concert, i) => (
+                              <li key={'saved' + i}>
+                                <ConcertCard concert={concert}/>
                               </li>
                           )
                       )}

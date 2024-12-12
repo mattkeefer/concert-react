@@ -1,9 +1,7 @@
-import ConcertCard from "../Concert/Card";
+import ConcertCard from "../../Components/Card";
 import {useEffect, useState} from "react";
 import "./index.css";
-import * as concertClient from "../Concert/client";
-import * as jambaseClient from "../Concert/Jambase/client";
-import {parseConcertFromEvent} from "../Concert/client";
+import * as concertClient from "../../Clients/concertClient";
 
 export default function Home() {
 
@@ -12,13 +10,13 @@ export default function Home() {
     following: false,
     simple: true,
   });
-  const [events, setEvents] = useState<[concertClient.Event]>();
+  const [concerts, setConcerts] = useState<[concertClient.Concert]>();
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchConcerts = async () => {
     setIsLoading(true);
-    const e = await jambaseClient.getConcerts();
-    setEvents(e.events);
+    const res = await concertClient.searchConcerts({});
+    setConcerts(res);
     setIsLoading(false);
   }
 
@@ -54,14 +52,14 @@ export default function Home() {
           {isLoading && <div className="text-center">
             <div className="spinner-border mt-4" role="status" aria-hidden="true"></div>
           </div>}
-          {!isLoading && !filters.simple && events && events.map((event) => (
-              <ConcertCard key={event.identifier} cardDetails={parseConcertFromEvent(event)}/>)
+          {!isLoading && !filters.simple && concerts && concerts.map((concert) => (
+              <ConcertCard key={concert._id} concert={concert}/>)
           )}
-          {!isLoading && filters.simple && events && <div className="card-group">
+          {!isLoading && filters.simple && concerts && <div className="card-group">
             <ul className="list-group list-group-horizontal">
-              {events.map((event, i) => (
+              {concerts.map((concert, i) => (
                       <li key={'event' + i}>
-                        <ConcertCard cardDetails={parseConcertFromEvent(event)}/>
+                        <ConcertCard concert={concert}/>
                       </li>
                   )
               )}

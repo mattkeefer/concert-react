@@ -1,14 +1,14 @@
 import {useState} from "react";
-import * as userClient from "../../Users/client";
+import * as userClient from "../../../Clients/userClient";
 import "../index.css";
 import {Link} from "react-router-dom";
 import {useNavigate} from "react-router";
 import {useDispatch} from "react-redux";
-import {setUser} from "../../Users/reducer";
+import {setUser} from "../../../Clients/userReducer";
 
 export default function Login() {
   const [credentials, setCredentials] = useState({
-    username: "",
+    email: "",
     password: "",
   });
   const [error, setError] = useState("");
@@ -38,12 +38,12 @@ export default function Login() {
         <div className="row my-4">
           <div className="col">
             <div className="form-floating">
-              <input type="text" className="form-control" id="username" placeholder="Username"
-                     value={credentials.username} onChange={(e) => setCredentials({
+              <input type="email" className="form-control" id="email" placeholder="Email"
+                     value={credentials.email} onChange={(e) => setCredentials({
                 ...credentials,
-                username: e.target.value
+                email: e.target.value
               })}/>
-              <label form="username">Username</label>
+              <label form="email">Email</label>
             </div>
           </div>
         </div>
