@@ -5,6 +5,7 @@ import {Concert} from "../../Clients/concertClient";
 export default function ConcertCard({concert}: { concert: Concert }) {
 
   const navigate = useNavigate();
+  concert = {...concert, startDate: new Date(concert.startDate)};
 
   return (
       <button className="btn p-0 rounded-4 text-start my-2"

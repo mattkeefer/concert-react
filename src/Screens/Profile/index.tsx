@@ -11,24 +11,12 @@ import ConcertCard from "../../Components/Card";
 export default function Profile() {
   const {userId} = useParams();
   const user = useSelector((state: UserState) => state.userReducer.user);
-  const [profile, setProfile] = useState<userClient.user>({
-    _id: "",
-    attending: [],
-    email: "",
-    firstName: "",
-    followers: [],
-    following: [],
-    interested: [],
-    lastName: "",
-    password: "",
-    role: "",
-    username: ""
-  });
+  const [profile, setProfile] = useState<userClient.User>();
   const [savedConcerts, setSavedConcerts] = useState<concertClient.Concert[]>();
 
   const fetchProfile = async () => {
-    const u = await userClient.profile(userId as string);
-    setProfile(u);
+    // const u = await userClient.profile(userId as string);
+    // setProfile(u);
   }
 
   useEffect(() => {
@@ -67,7 +55,7 @@ export default function Profile() {
               <div>
                 <h5 className="text-accent">@{profile.username}</h5>
                 <h1>{profile.firstName} {profile.lastName}</h1>
-                <h5>{profile.attending.length} concerts attending <span
+                <h5>{profile.savedConcerts.length} saved concerts <span
                     className="text-dark-emphasis">|</span> {profile.followers.length} followers <span
                     className="text-dark-emphasis">|</span> {profile.following.length} following
                 </h5>

@@ -6,12 +6,13 @@ import * as concertClient from "../../Clients/concertClient";
 import {useEffect, useState} from "react";
 import "./index.css";
 import {FaLocationDot, FaCalendarDays, FaBuilding} from "react-icons/fa6";
-import {FaPlus, FaCheck} from "react-icons/fa";
+import {FaHeart, FaRegHeart} from "react-icons/fa";
+import {Concert} from "../../Clients/concertClient";
 
 
 export default function ConcertDetailsScreen() {
   const {concertId} = useParams();
-  const [concert, setConcert] = useState<concertClient.Concert>();
+  const [concert, setConcert] = useState<Concert>();
   const [isLoading, setIsLoading] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
 
@@ -23,11 +24,10 @@ export default function ConcertDetailsScreen() {
     setIsLoading(true);
     if (concertId) {
       // Load concert from database
-      const savedConcert = await concertClient.getConcertById(concertId);
-      // If concert exists in the database
+      const savedConcert: Concert = await concertClient.getConcertById(concertId);
       if (savedConcert) {
-        setConcert(savedConcert);
-        setIsSaved(user.savedConcerts.includes(savedConcert._id));
+        setConcert({...savedConcert, startDate: new Date(savedConcert.startDate)});
+        // setIsSaved(user.savedConcerts.includes(savedConcert._id));
       }
       setIsLoading(false);
     }
@@ -39,6 +39,7 @@ export default function ConcertDetailsScreen() {
 
   const saveConcert = async () => {
     console.log('SAVE CONCERT');
+    setIsSaved(!isSaved);
     // try {
     //   // Attend concert, save to database
     //   const savedConcert = await connectClient.attendConcert(event);
@@ -60,6 +61,7 @@ export default function ConcertDetailsScreen() {
 
   const unsaveConcert = async () => {
     console.log('UNSAVE CONCERT');
+    setIsSaved(!isSaved);
     // try {
     //   // Unattend concert
     //   const savedConcert = await connectClient.removeAttending(event?.identifier);
@@ -116,9 +118,9 @@ export default function ConcertDetailsScreen() {
                         className={"btn btn-dark my-4 d-flex align-items-center"}
                         type="button"
                         onClick={() => isSaved ? unsaveConcert() : saveConcert()}>
-                      {!isSaved ? <FaPlus className="me-2 text-black-50"/> :
-                          <FaCheck className="me-2 text-accent"/>}
-                      Interested
+                      {!isSaved ? <FaRegHeart className="me-2 text-accent"/> :
+                          <FaHeart className="me-2 text-accent"/>}
+                      {!isSaved ? "Save Concert" : "Saved Concert"}
                     </button>
                   </div>
                 </div>

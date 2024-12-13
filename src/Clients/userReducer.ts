@@ -8,11 +8,9 @@ const initialState = {
     firstName: '',
     lastName: '',
     email: '',
-    role: 'USER',
+    savedConcerts: [],
     following: [],
     followers: [],
-    interested: [],
-    attending: [],
   }
 };
 

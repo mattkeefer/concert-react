@@ -76,7 +76,7 @@ export interface Concert {
     latitude?: number,
     longitude?: number,
   },
-  image?: string, // image href
+  image?: string,
   startDate: Date,
   endDate?: Date,
   ticketInfo?: {

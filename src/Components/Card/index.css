@@ -9,7 +9,7 @@
 }
 
 .card-title {
-  color: #F2305F;
+  color: var(--accent-color);
   font-weight: bolder;
 }
 
