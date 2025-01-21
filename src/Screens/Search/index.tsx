@@ -43,7 +43,7 @@ export default function Search() {
             <div className="spinner-border mt-4" role="status" aria-hidden="true"></div>
           </div>}
           {searchResults.length > 0 ?
-              <div>
+              <div className="d-flex justify-content-between flex-wrap">
                 {searchResults.map((concert) => (
                     <ConcertCard concert={concert}/>
                 ))}

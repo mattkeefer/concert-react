@@ -145,10 +145,10 @@ function convertDiscoveryToConnect(discovery: DiscoveryConcert): Concert {
     _id: "",
     artists: discovery._embedded.attractions?.map(attraction => ({
       name: attraction.name,
-      image: attraction.images[0]?.url,
+      image: attraction.images?.[0]?.url,
     })),
     endDate: discovery.dates.end?.dateTime,
-    image: discovery.images[0].url,
+    image: discovery.images?.[0]?.url,
     setlist: [],
     source: ConcertSource.DISCOVERY,
     startDate: discovery.dates.start.dateTime ?
