@@ -30,8 +30,14 @@ export const searchConcerts = async (searchParams: ConcertSearchParams) => {
   return res.data;
 }
 
+export const searchDiscoveryConcerts = async (params: any) => {
+  const res = await api.get(`${NODE_API}/discovery/events`, {params});
+  const concerts = res.data._embedded?.events;
+  return concerts ? concerts.map((event: DiscoveryConcert) => (convertDiscoveryToConnect(event))) : [];
+}
+
 export enum ConcertSource {
-  TICKETMASTER = "Ticketmaster",
+  DISCOVERY = "Discovery",
   SETLIST_FM = "Setlist.fm",
 }
 
@@ -39,25 +45,6 @@ export interface ConcertSearchParams {
   artist?: string,
   venue?: string,
 
-  // id?: string,
-  // keyword?: string,
-  // attractionId?: string,
-  // venueId?: string,
-  // postalCode?: string,
-  // marketId?: string,
-  // startDateTime?: string,
-  // endDateTime?: string,
-  // size?: number,
-  // page?: number,
-  // sort?: string,
-  // city?: string,
-  // countryCode?: string,
-  // stateCode?: string,
-  // localStartDateTime?: string,
-  // genreId?: string,
-  // subGenreId?: string,
-  // typeId?: string,
-  // subTypeId?: string,
 }
 
 export interface Concert {
@@ -73,8 +60,6 @@ export interface Concert {
     state?: string,
     country: string,
     address?: string,
-    latitude?: number,
-    longitude?: number,
   },
   image?: string,
   startDate: Date,
@@ -91,4 +76,100 @@ export interface Concert {
   source: ConcertSource,
   tags?: string[],
   createdAt?: Date,
+}
+
+export interface DiscoveryConcert {
+  name: string,
+  url: string,
+  locale: string,
+  images: {
+    url: string,
+  }[],
+  dates: {
+    start: {
+      dateTime?: string,
+      localDate: string,
+      localTime?: string,
+    },
+    end?: {
+      dateTime: Date,
+    },
+  },
+  priceRanges?: {
+    currency: string,
+    min: number,
+    max: number,
+  }[],
+  classifications?: {
+    genre?: { name: string },
+    subGenre?: { name: string },
+  }[],
+  _embedded: {
+    venues: {
+      name: string,
+      city: {
+        name: string,
+      },
+      country: {
+        name: string,
+        countryCode: string,
+      },
+      address?: {
+        line1: string,
+      },
+      location?: {
+        latitude: number,
+        longitude: number,
+      },
+    }[],
+    attractions: {
+      name: string,
+      images: {
+        url: string,
+      }[],
+    }[],
+  },
+}
+
+function convertDiscoveryToConnect(discovery: DiscoveryConcert): Concert {
+  const venue = discovery._embedded.venues?.[0]
+  const genreTags = []
+  if (discovery.classifications?.[0]?.genre?.name) {
+    genreTags.push(discovery.classifications?.[0]?.genre?.name)
+  }
+  if (discovery.classifications?.[0]?.subGenre?.name) {
+    genreTags.push(discovery.classifications?.[0]?.subGenre?.name)
+  }
+
+  return {
+    _id: "",
+    artists: discovery._embedded.attractions?.map(attraction => ({
+      name: attraction.name,
+      image: attraction.images[0]?.url,
+    })),
+    endDate: discovery.dates.end?.dateTime,
+    image: discovery.images[0].url,
+    setlist: [],
+    source: ConcertSource.DISCOVERY,
+    startDate: discovery.dates.start.dateTime ?
+        new Date(discovery.dates.start.dateTime) :
+        new Date(`${discovery.dates.start.localDate}T${discovery.dates.start.localTime || '00:00:00'}`),
+    tags: genreTags,
+    ticketInfo: {
+      url: discovery.url,
+      priceRange: discovery.priceRanges ? {
+        min: discovery.priceRanges[0]?.min,
+        max: discovery.priceRanges[0]?.max,
+        currency: discovery.priceRanges[0]?.currency,
+      } :
+          undefined,
+    },
+    title: discovery.name,
+    venue: {
+      name: venue?.name || "Unknown Venue",
+      city: venue?.city?.name || "Unknown City",
+      country: venue?.country?.countryCode || "Unknown Country",
+      address: venue?.address?.line1 || "Unknown Address",
+    },
+  }
 }
