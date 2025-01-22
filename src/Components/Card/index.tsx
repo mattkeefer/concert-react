@@ -1,15 +1,24 @@
 import {useNavigate} from "react-router";
 import "./index.css";
-import {Concert} from "../../Clients/concertClient";
+import {Concert} from "../../Clients/Schemas/concerts";
+import {createConcert} from "../../Clients/concertClient";
 
 export default function ConcertCard({concert}: { concert: Concert }) {
 
   const navigate = useNavigate();
   concert = {...concert, startDate: new Date(concert.startDate)};
 
+  const handleClick = async () => {
+    if (concert._id.length < 24) {
+      const newConcert = await createConcert(concert);
+      navigate(`/Concert/${newConcert._id}`);
+    }
+    navigate(`/Concert/${concert._id}`);
+  }
+
   return (
       <button className="btn p-0 rounded-4 text-start my-2"
-              onClick={() => navigate(`/Concert/${concert._id}`)}>
+              onClick={handleClick}>
         <div className="card rounded-4" style={{width: "14rem"}}>
           <img src={concert.image} className="card-img-top rounded-top-4"
                style={{height: "14rem", objectFit: "cover"}} alt={concert.title}/>

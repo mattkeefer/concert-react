@@ -7,7 +7,7 @@ import {useEffect, useState} from "react";
 import "./index.css";
 import {FaLocationDot, FaCalendarDays, FaBuilding} from "react-icons/fa6";
 import {FaHeart, FaRegHeart} from "react-icons/fa";
-import {Concert} from "../../Clients/concertClient";
+import {Concert} from "../../Clients/Schemas/concerts";
 
 
 export default function ConcertDetailsScreen() {

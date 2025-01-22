@@ -2,6 +2,7 @@ import ConcertCard from "../../Components/Card";
 import {useEffect, useState} from "react";
 import "./index.css";
 import * as concertClient from "../../Clients/concertClient";
+import {Concert} from "../../Clients/Schemas/concerts";
 
 export default function Home() {
 
@@ -10,7 +11,7 @@ export default function Home() {
     following: false,
     simple: true,
   });
-  const [concerts, setConcerts] = useState<[concertClient.Concert]>();
+  const [concerts, setConcerts] = useState<[Concert]>();
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchConcerts = async () => {

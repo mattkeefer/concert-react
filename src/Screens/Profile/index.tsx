@@ -7,12 +7,14 @@ import {useEffect, useState} from "react";
 import {FaCheck, FaPlus, FaUser} from "react-icons/fa"
 import "./index.css"
 import ConcertCard from "../../Components/Card";
+import {Concert} from "../../Clients/Schemas/concerts";
+import {User} from "../../Clients/Schemas/users";
 
 export default function Profile() {
   const {userId} = useParams();
   const user = useSelector((state: UserState) => state.userReducer.user);
-  const [profile, setProfile] = useState<userClient.User>();
-  const [savedConcerts, setSavedConcerts] = useState<concertClient.Concert[]>();
+  const [profile, setProfile] = useState<User>();
+  const [savedConcerts, setSavedConcerts] = useState<Concert[]>();
 
   const fetchProfile = async () => {
     // const u = await userClient.profile(userId as string);

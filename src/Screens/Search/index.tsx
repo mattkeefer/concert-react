@@ -2,7 +2,7 @@ import ConcertCard from "../../Components/Card";
 import {useState} from "react";
 import "./index.css";
 import * as concertClient from "../../Clients/concertClient";
-import {Concert} from "../../Clients/concertClient";
+import {Concert} from "../../Clients/Schemas/concerts";
 
 export default function Search() {
 

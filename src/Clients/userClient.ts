@@ -1,4 +1,5 @@
 import axios from "axios";
+import {User} from "./Schemas/users";
 
 const api = axios.create({
   withCredentials: true,
@@ -91,15 +92,3 @@ export const logout = async () => {
   );
   return response.data;
 };
-
-export interface User {
-  _id: string,
-  username: string,
-  password: string,
-  firstName: string,
-  lastName: string,
-  email: string,
-  following: string[],
-  followers: string[],
-  savedConcerts: string[],
-}

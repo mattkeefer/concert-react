@@ -1,4 +1,5 @@
 import axios from "axios";
+import {Concert, ConcertSearchParams, ConcertSource, DiscoveryConcert} from "./Schemas/concerts";
 
 const api = axios.create({
   withCredentials: true,
@@ -33,105 +34,10 @@ export const searchConcerts = async (searchParams: ConcertSearchParams) => {
 export const searchDiscoveryConcerts = async (params: any) => {
   const res = await api.get(`${NODE_API}/discovery/events`, {params});
   const concerts = res.data._embedded?.events;
-  return concerts ? concerts.map((event: DiscoveryConcert) => (convertDiscoveryToConnect(event))) : [];
+  return concerts ? concerts.map((event: DiscoveryConcert) => (convertDiscoveryConcertToConcert(event))) : [];
 }
 
-export enum ConcertSource {
-  DISCOVERY = "Discovery",
-  SETLIST_FM = "Setlist.fm",
-}
-
-export interface ConcertSearchParams {
-  artist?: string,
-  venue?: string,
-
-}
-
-export interface Concert {
-  _id: string,
-  title: string,
-  artists: {
-    name: string,
-    image?: string,
-  }[],
-  venue: {
-    name: string,
-    city: string,
-    state?: string,
-    country: string,
-    address?: string,
-  },
-  image?: string,
-  startDate: Date,
-  endDate?: Date,
-  ticketInfo?: {
-    url?: string,
-    priceRange?: {
-      min?: number,
-      max?: number,
-      currency?: string,
-    },
-  },
-  setlist?: string[],
-  source: ConcertSource,
-  tags?: string[],
-  createdAt?: Date,
-}
-
-export interface DiscoveryConcert {
-  name: string,
-  url: string,
-  locale: string,
-  images: {
-    url: string,
-  }[],
-  dates: {
-    start: {
-      dateTime?: string,
-      localDate: string,
-      localTime?: string,
-    },
-    end?: {
-      dateTime: Date,
-    },
-  },
-  priceRanges?: {
-    currency: string,
-    min: number,
-    max: number,
-  }[],
-  classifications?: {
-    genre?: { name: string },
-    subGenre?: { name: string },
-  }[],
-  _embedded: {
-    venues: {
-      name: string,
-      city: {
-        name: string,
-      },
-      country: {
-        name: string,
-        countryCode: string,
-      },
-      address?: {
-        line1: string,
-      },
-      location?: {
-        latitude: number,
-        longitude: number,
-      },
-    }[],
-    attractions: {
-      name: string,
-      images: {
-        url: string,
-      }[],
-    }[],
-  },
-}
-
-function convertDiscoveryToConnect(discovery: DiscoveryConcert): Concert {
+function convertDiscoveryConcertToConcert(discovery: DiscoveryConcert): Concert {
   const venue = discovery._embedded.venues?.[0]
   const genreTags = []
   if (discovery.classifications?.[0]?.genre?.name) {
@@ -142,7 +48,7 @@ function convertDiscoveryToConnect(discovery: DiscoveryConcert): Concert {
   }
 
   return {
-    _id: "",
+    _id: discovery.id,
     artists: discovery._embedded.attractions?.map(attraction => ({
       name: attraction.name,
       image: attraction.images?.[0]?.url,
@@ -158,10 +64,10 @@ function convertDiscoveryToConnect(discovery: DiscoveryConcert): Concert {
     ticketInfo: {
       url: discovery.url,
       priceRange: discovery.priceRanges ? {
-        min: discovery.priceRanges[0]?.min,
-        max: discovery.priceRanges[0]?.max,
-        currency: discovery.priceRanges[0]?.currency,
-      } :
+            min: discovery.priceRanges[0]?.min,
+            max: discovery.priceRanges[0]?.max,
+            currency: discovery.priceRanges[0]?.currency,
+          } :
           undefined,
     },
     title: discovery.name,
