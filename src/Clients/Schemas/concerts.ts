@@ -14,6 +14,7 @@ export interface ConcertSearchParams {
 
 export interface Concert {
   _id: string,
+  discoveryId?: string,
   title: string,
   artists: {
     name: string,

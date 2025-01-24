@@ -1,7 +1,7 @@
 import {useNavigate} from "react-router";
 import "./index.css";
 import {Concert} from "../../Clients/Schemas/concerts";
-import {createConcert} from "../../Clients/concertClient";
+import {findOrCreateConcert} from "../../Clients/concertClient";
 
 export default function ConcertCard({concert}: { concert: Concert }) {
 
@@ -9,11 +9,14 @@ export default function ConcertCard({concert}: { concert: Concert }) {
   concert = {...concert, startDate: new Date(concert.startDate)};
 
   const handleClick = async () => {
-    if (concert._id.length < 24) {
-      const newConcert = await createConcert(concert);
+    if (concert._id == concert.discoveryId) {
+      // Discovery concert, need to find or create saved concert
+      const newConcert = await findOrCreateConcert(concert);
       navigate(`/Concert/${newConcert._id}`);
+    } else {
+      // Saved concert
+      navigate(`/Concert/${concert._id}`);
     }
-    navigate(`/Concert/${concert._id}`);
   }
 
   return (

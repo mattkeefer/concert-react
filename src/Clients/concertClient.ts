@@ -16,6 +16,11 @@ export const getConcertById = async (id: string) => {
   return res.data;
 }
 
+export const findOrCreateConcert = async (concert: Concert) => {
+  const res = await api.post(`${NODE_API}/concerts/find`, concert);
+  return res.data;
+}
+
 export const updateConcert = async (concertId: string, concert: Concert) => {
   const res = await api.put(`${NODE_API}/concerts/${concertId}`, concert);
   return res.data;
@@ -49,6 +54,7 @@ function convertDiscoveryConcertToConcert(discovery: DiscoveryConcert): Concert 
 
   return {
     _id: discovery.id,
+    discoveryId: discovery.id,
     artists: discovery._embedded.attractions?.map(attraction => ({
       name: attraction.name,
       image: attraction.images?.[0]?.url,
