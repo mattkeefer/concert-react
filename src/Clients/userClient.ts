@@ -43,6 +43,13 @@ export const saveConcert = async (userId: string, concertId: string) => {
   return response.data;
 };
 
+export const unsaveConcert = async (userId: string, concertId: string) => {
+  const response = await api.post(
+      `${NODE_API}/users/${userId}/unsave-concert/${concertId}`,
+  );
+  return response.data;
+};
+
 export const followUser = async (userId: string, targetUserId: string) => {
   const response = await api.post(
       `${NODE_API}/users/${userId}/follow/${targetUserId}`,
