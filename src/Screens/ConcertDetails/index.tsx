@@ -1,7 +1,7 @@
 import {useParams} from "react-router";
 import {UserState} from "../../Store";
 import {useSelector, useDispatch} from "react-redux";
-import {setUser} from "../../Clients/userReducer";
+import {setUser} from "../../Store/userReducer";
 import * as concertClient from "../../Clients/concertClient";
 import {useEffect, useState} from "react";
 import "./index.css";
@@ -109,7 +109,7 @@ export default function ConcertDetailsScreen() {
                     <li className="card-text text-nowrap text-truncate list-group-item concert-info-list-item rounded">
                       <div className="d-flex align-items-center flex-wrap">
                         <FaLocationDot className="me-3 concert-icon text-accent"/>
-                        {concert.venue.city}
+                        {concert.venue.city}, {concert.venue.country}
                       </div>
                     </li>
                   </ul>
