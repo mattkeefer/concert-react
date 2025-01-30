@@ -5,7 +5,7 @@ import "./index.css";
 import {UserState} from "../../Store";
 import {useDispatch, useSelector} from "react-redux";
 import * as client from "../../Clients/userClient";
-import {resetUser} from "../../Clients/userReducer";
+import {resetUser} from "../../Store/userReducer";
 
 export default function Navigation() {
   const user = useSelector((state: UserState) => state.userReducer.user);

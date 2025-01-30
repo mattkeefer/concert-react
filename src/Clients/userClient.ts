@@ -86,12 +86,12 @@ export const loginUser = async (credentials: { email: string, password: string }
   return response.data;
 };
 
-// export const profile = async (userId: string) => {
-//   const response = await api.post(
-//       `${NODE_API}/users/profile/${userId}`
-//   );
-//   return response.data;
-// };
+export const profile = async (userId: string) => {
+  const response = await api.post(
+      `${NODE_API}/users/profile/${userId}`
+  );
+  return response.data;
+};
 
 export const logout = async () => {
   const response = await api.post(

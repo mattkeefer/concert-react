@@ -17,8 +17,9 @@ export default function Profile() {
   const [savedConcerts, setSavedConcerts] = useState<Concert[]>();
 
   const fetchProfile = async () => {
-    // const u = await userClient.profile(userId as string);
-    // setProfile(u);
+    const u = await userClient.profile(userId as string);
+    console.log(u);
+    setProfile(u);
   }
 
   useEffect(() => {
@@ -26,21 +27,21 @@ export default function Profile() {
   }, [userId]);
 
   const followUser = async () => {
-    // try {
-    //   const res = await userClient.followUser(userId);
-    //   setProfile(res);
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      const res = await userClient.followUser(user._id, userId!);
+      setProfile(res);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   const unfollowUser = async () => {
-    // try {
-    //   const res = await userClient.unfollowUser(userId);
-    //   setProfile(res);
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      const res = await userClient.unfollowUser(user._id, userId!);
+      setProfile(res);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (

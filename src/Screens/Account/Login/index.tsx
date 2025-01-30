@@ -4,7 +4,8 @@ import "../index.css";
 import {Link} from "react-router-dom";
 import {useNavigate} from "react-router";
 import {useDispatch} from "react-redux";
-import {setUser} from "../../../Clients/userReducer";
+import {setUser} from "../../../Store/userReducer";
+import {User} from "../../../Clients/Schemas/users";
 
 export default function Login() {
   const [credentials, setCredentials] = useState({
@@ -17,7 +18,7 @@ export default function Login() {
 
   const login = async () => {
     try {
-      const newUser: any = await userClient.loginUser(credentials);
+      const newUser: User = await userClient.loginUser(credentials);
       dispatch(setUser(newUser));
       navigate("/Home");
       setError("");

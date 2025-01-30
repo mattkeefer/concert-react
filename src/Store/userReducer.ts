@@ -8,9 +8,9 @@ const initialState = {
     firstName: '',
     lastName: '',
     email: '',
-    savedConcerts: [],
     following: [],
     followers: [],
+    savedConcerts: [],
   }
 };
 

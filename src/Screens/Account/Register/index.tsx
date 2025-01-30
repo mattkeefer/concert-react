@@ -4,7 +4,8 @@ import {Link} from "react-router-dom";
 import {useNavigate} from "react-router";
 import {useDispatch} from "react-redux";
 import * as userClient from "../../../Clients/userClient";
-import {setUser} from "../../../Clients/userReducer";
+import {setUser} from "../../../Store/userReducer";
+import {User} from "../../../Clients/Schemas/users";
 
 export default function Register() {
   const [credentials, setCredentials] = useState({
@@ -20,7 +21,7 @@ export default function Register() {
 
   const register = async () => {
     try {
-      const u = await userClient.registerUser(credentials);
+      const u: User = await userClient.registerUser(credentials);
       dispatch(setUser(u));
       navigate("/Home");
     } catch (error: any) {
