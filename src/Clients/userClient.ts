@@ -21,6 +21,13 @@ export const getUserById = async (userId: string) => {
   return response.data;
 };
 
+export const getSavedConcertsForUserById = async (userId: string) => {
+  const response = await api.get(
+      `${NODE_API}/users/${userId}/concerts`
+  );
+  return response.data;
+}
+
 export const getUserByUsername = async (username: string) => {
   const response = await api.get(
       `${NODE_API}/users/username/${username}`

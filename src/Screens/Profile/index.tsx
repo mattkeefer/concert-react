@@ -18,8 +18,9 @@ export default function Profile() {
 
   const fetchProfile = async () => {
     const u = await userClient.profile(userId as string);
-    console.log(u);
     setProfile(u);
+    const c = await userClient.getSavedConcertsForUserById(user._id);
+    setSavedConcerts(c);
   }
 
   useEffect(() => {

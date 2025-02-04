@@ -3,6 +3,7 @@ import {UserState} from "../../Store";
 import {useSelector, useDispatch} from "react-redux";
 import {setUser} from "../../Store/userReducer";
 import * as concertClient from "../../Clients/concertClient";
+import * as userClient from "../../Clients/userClient";
 import {useEffect, useState} from "react";
 import "./index.css";
 import {FaLocationDot, FaCalendarDays, FaBuilding} from "react-icons/fa6";
@@ -19,7 +20,6 @@ export default function ConcertDetailsScreen() {
   const user = useSelector((state: UserState) => state.userReducer.user);
   const dispatch = useDispatch();
 
-
   const fetchConcert = async () => {
     setIsLoading(true);
     if (concertId) {
@@ -27,7 +27,7 @@ export default function ConcertDetailsScreen() {
       const savedConcert: Concert = await concertClient.getConcertById(concertId);
       if (savedConcert) {
         setConcert({...savedConcert, startDate: new Date(savedConcert.startDate)});
-        // setIsSaved(user.savedConcerts.includes(savedConcert._id));
+        setIsSaved(user.savedConcerts.includes(savedConcert._id));
       }
       setIsLoading(false);
     }
@@ -38,42 +38,18 @@ export default function ConcertDetailsScreen() {
   }, []);
 
   const saveConcert = async () => {
-    console.log('SAVE CONCERT');
-    setIsSaved(!isSaved);
-    // try {
-    //   // Attend concert, save to database
-    //   const savedConcert = await connectClient.attendConcert(event);
-    //   setConcert(savedConcert);
-    //   // Add concert to user store
-    //   const attCopy = [...user.attending];
-    //   attCopy.push(savedConcert._id);
-    //   dispatch(setUser({...user, attending: attCopy}));
-    //   // Display attending
-    //   setIsAttending(true);
-    //   // If user is interested in concert, we want to remove interest as we attend
-    //   if (isInterested) {
-    //     uninterestConcert()
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
-  }
-
-  const unsaveConcert = async () => {
-    console.log('UNSAVE CONCERT');
-    setIsSaved(!isSaved);
-    // try {
-    //   // Unattend concert
-    //   const savedConcert = await connectClient.removeAttending(event?.identifier);
-    //   setConcert(savedConcert);
-    //   // Remove concert from user store
-    //   const attCopy = [...user.attending];
-    //   dispatch(setUser({...user, attending: attCopy.filter(cid => cid !== concert?._id)}));
-    //   // Display not attending
-    //   setIsAttending(false);
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      if (!isSaved) {
+        const u = await userClient.saveConcert(user._id, concert!._id);
+        dispatch(setUser({...user, savedConcerts: u.savedConcerts}));
+      } else {
+        const u = await userClient.unsaveConcert(user._id, concert!._id);
+        dispatch(setUser({...user, savedConcerts: u.savedConcerts}));
+      }
+      setIsSaved(!isSaved);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   return (
@@ -117,7 +93,7 @@ export default function ConcertDetailsScreen() {
                     <button
                         className={"btn btn-dark my-4 d-flex align-items-center"}
                         type="button"
-                        onClick={() => isSaved ? unsaveConcert() : saveConcert()}>
+                        onClick={() => saveConcert()}>
                       {!isSaved ? <FaRegHeart className="me-2 text-accent"/> :
                           <FaHeart className="me-2 text-accent"/>}
                       {!isSaved ? "Save Concert" : "Saved Concert"}
