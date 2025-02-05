@@ -32,7 +32,7 @@ export const deleteConcert = async (concertId: string) => {
 }
 
 export const searchConcerts = async (searchParams: ConcertSearchParams) => {
-  const res = await api.get(`${NODE_API}/concerts`);
+  const res = await api.get(`${NODE_API}/concerts`, {params: searchParams});
   return res.data;
 }
 

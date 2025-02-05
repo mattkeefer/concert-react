@@ -16,7 +16,7 @@ export default function Home() {
 
   const fetchConcerts = async () => {
     setIsLoading(true);
-    const res = await concertClient.searchConcerts({});
+    const res = await concertClient.searchConcerts({startDate: new Date().toDateString()});
     setConcerts(res);
     setIsLoading(false);
   }

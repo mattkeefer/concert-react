@@ -2,25 +2,34 @@ import {useParams} from "react-router";
 import {useSelector} from "react-redux";
 import {UserState} from "../../Store";
 import * as userClient from "../../Clients/userClient";
-import * as concertClient from "../../Clients/concertClient";
 import {useEffect, useState} from "react";
 import {FaCheck, FaPlus, FaUser} from "react-icons/fa"
 import "./index.css"
 import ConcertCard from "../../Components/Card";
 import {Concert} from "../../Clients/Schemas/concerts";
 import {User} from "../../Clients/Schemas/users";
+import ErrorCard from "../../Components/Error";
 
 export default function Profile() {
   const {userId} = useParams();
   const user = useSelector((state: UserState) => state.userReducer.user);
   const [profile, setProfile] = useState<User>();
-  const [savedConcerts, setSavedConcerts] = useState<Concert[]>();
+  const [upcomingConcerts, setUpcomingConcerts] = useState<Concert[]>();
+  const [pastConcerts, setPastConcerts] = useState<Concert[]>();
+  const [error, setError] = useState<Error>();
 
   const fetchProfile = async () => {
-    const u = await userClient.profile(userId as string);
-    setProfile(u);
-    const c = await userClient.getSavedConcertsForUserById(user._id);
-    setSavedConcerts(c);
+    try {
+      const u = await userClient.profile(userId as string);
+      setProfile(u);
+      const c = await userClient.getSavedConcertsForUserById(user._id);
+      const past = c.filter((concert: Concert) => new Date(concert.startDate) < new Date());
+      setPastConcerts(past);
+      const upcoming = c.filter((concert: Concert) => new Date(concert.startDate) >= new Date());
+      setUpcomingConcerts(upcoming);
+    } catch (err: any) {
+      setError(err);
+    }
   }
 
   useEffect(() => {
@@ -29,18 +38,18 @@ export default function Profile() {
 
   const followUser = async () => {
     try {
-      const res = await userClient.followUser(user._id, userId!);
-      setProfile(res);
-    } catch (error) {
-      console.log(error);
+      await userClient.followUser(user._id, userId!);
+      fetchProfile();
+    } catch (err: any) {
+      setError(err);
     }
   }
 
   const unfollowUser = async () => {
     try {
-      const res = await userClient.unfollowUser(user._id, userId!);
-      setProfile(res);
-    } catch (error) {
+      await userClient.unfollowUser(user._id, userId!);
+      fetchProfile();
+    } catch (err: any) {
       console.log(error);
     }
   }
@@ -81,10 +90,26 @@ export default function Profile() {
           </div>
           <div className="d-flex flex-wrap bg-black rounded-4 p-4">
             <div className="col-12 mb-4">
-              <h4>Saved Concerts</h4>
-              {savedConcerts && savedConcerts.length > 0 ? <div className="card-group">
+              <h4>Upcoming Concerts</h4>
+              {upcomingConcerts && upcomingConcerts.length > 0 ? <div className="card-group">
                     <ul className="list-group list-group-horizontal">
-                      {savedConcerts.map((concert, i) => (
+                      {upcomingConcerts.map((concert, i) => (
+                              <li key={'saved' + i}>
+                                <ConcertCard concert={concert}/>
+                              </li>
+                          )
+                      )}
+                    </ul>
+                  </div> :
+                  <div>
+                    <h6 className="text-dark-emphasis">No concerts yet...</h6>
+                  </div>}
+            </div>
+            <div className="col-12 mb-4">
+              <h4>Past Concerts</h4>
+              {pastConcerts && pastConcerts.length > 0 ? <div className="card-group">
+                    <ul className="list-group list-group-horizontal">
+                      {pastConcerts.map((concert, i) => (
                               <li key={'saved' + i}>
                                 <ConcertCard concert={concert}/>
                               </li>
@@ -98,6 +123,7 @@ export default function Profile() {
             </div>
           </div>
         </div>}
+        {error && <ErrorCard error={error}/>}
       </div>
   );
 }

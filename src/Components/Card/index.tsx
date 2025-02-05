@@ -9,7 +9,7 @@ export default function ConcertCard({concert}: { concert: Concert }) {
   concert = {...concert, startDate: new Date(concert.startDate)};
 
   const handleClick = async () => {
-    if (concert._id == concert.discoveryId) {
+    if (concert._id === concert.discoveryId) {
       // Discovery concert, need to find or create saved concert
       const newConcert = await findOrCreateConcert(concert);
       navigate(`/Concert/${newConcert._id}`);
@@ -33,7 +33,9 @@ export default function ConcertCard({concert}: { concert: Concert }) {
                 concert.startDate.toLocaleTimeString().split(":")[1]} PM
               </li>
               <li className="card-text text-nowrap text-truncate">{concert.venue.name}</li>
-              <li className="card-text card-text-accent text-nowrap text-truncate">{concert.venue.city}</li>
+              <li className="card-text card-text-accent text-nowrap text-truncate">
+                {concert.venue.city}, {concert.venue.country}
+              </li>
             </ul>
           </div>
         </div>
