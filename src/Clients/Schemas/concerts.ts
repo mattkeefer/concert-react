@@ -8,8 +8,10 @@ export enum ConcertSource {
 export interface ConcertSearchParams {
   artist?: string,
   venue?: string,
+  city?: string,
   startDate?: string,
   endDate?: string,
+  sort?: boolean,
 }
 
 
