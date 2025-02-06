@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import "./index.css";
 import * as concertClient from "../../Clients/concertClient";
 import {Concert} from "../../Clients/Schemas/concerts";
+import ErrorModal from "../../Components/ErrorModal";
 
 export default function Home() {
 
@@ -13,12 +14,17 @@ export default function Home() {
   });
   const [concerts, setConcerts] = useState<[Concert]>();
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<Error>();
 
   const fetchConcerts = async () => {
-    setIsLoading(true);
-    const res = await concertClient.searchConcerts({startDate: new Date().toDateString()});
-    setConcerts(res);
-    setIsLoading(false);
+    try {
+      setIsLoading(true);
+      const res = await concertClient.searchConcerts({startDate: new Date().toDateString()});
+      setConcerts(res);
+      setIsLoading(false);
+    } catch (err: any) {
+      setError(err)
+    }
   }
 
   useEffect(() => {
@@ -66,6 +72,7 @@ export default function Home() {
               )}
             </ul>
           </div>}
+          {error && <ErrorModal error={error}/>}
         </div>
       </div>
   );

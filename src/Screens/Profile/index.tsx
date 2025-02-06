@@ -8,7 +8,7 @@ import "./index.css"
 import ConcertCard from "../../Components/Card";
 import {Concert} from "../../Clients/Schemas/concerts";
 import {User} from "../../Clients/Schemas/users";
-import ErrorCard from "../../Components/Error";
+import ErrorModal from "../../Components/ErrorModal";
 
 export default function Profile() {
   const {userId} = useParams();
@@ -123,7 +123,7 @@ export default function Profile() {
             </div>
           </div>
         </div>}
-        {error && <ErrorCard error={error}/>}
+        {error && <ErrorModal error={error}/>}
       </div>
   );
 }
