@@ -9,6 +9,7 @@ import "./index.css";
 import {FaLocationDot, FaCalendarDays, FaBuilding} from "react-icons/fa6";
 import {FaHeart, FaRegHeart} from "react-icons/fa";
 import {Concert} from "../../Clients/Schemas/concerts";
+import ErrorModal from "../../Components/ErrorModal";
 
 
 export default function ConcertDetailsScreen() {
@@ -16,20 +17,25 @@ export default function ConcertDetailsScreen() {
   const [concert, setConcert] = useState<Concert>();
   const [isLoading, setIsLoading] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
+  const [error, setError] = useState<Error>();
 
   const user = useSelector((state: UserState) => state.userReducer.user);
   const dispatch = useDispatch();
 
   const fetchConcert = async () => {
-    setIsLoading(true);
-    if (concertId) {
-      // Load concert from database
-      const savedConcert: Concert = await concertClient.getConcertById(concertId);
-      if (savedConcert) {
-        setConcert({...savedConcert, startDate: new Date(savedConcert.startDate)});
-        setIsSaved(user.savedConcerts.includes(savedConcert._id));
+    try {
+      setIsLoading(true);
+      if (concertId) {
+        // Load concert from database
+        const savedConcert: Concert = await concertClient.getConcertById(concertId);
+        if (savedConcert) {
+          setConcert({...savedConcert, startDate: new Date(savedConcert.startDate)});
+          setIsSaved(user && user.savedConcerts && user.savedConcerts.includes(savedConcert._id));
+        }
+        setIsLoading(false);
       }
-      setIsLoading(false);
+    } catch (err: any) {
+      setError(err);
     }
   };
 
@@ -47,8 +53,8 @@ export default function ConcertDetailsScreen() {
         dispatch(setUser({...user, savedConcerts: u.savedConcerts}));
       }
       setIsSaved(!isSaved);
-    } catch (err) {
-      console.log(err);
+    } catch (err: any) {
+      setError(err);
     }
   }
 
@@ -116,6 +122,7 @@ export default function ConcertDetailsScreen() {
               </div>
             </div>
         }
+        {error && <ErrorModal error={error}/>}
       </div>
   );
 }

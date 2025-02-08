@@ -3,6 +3,7 @@ import {useState} from "react";
 import "./index.css";
 import * as concertClient from "../../Clients/concertClient";
 import {Concert} from "../../Clients/Schemas/concerts";
+import ErrorModal from "../../Components/ErrorModal";
 
 export default function Search() {
 
@@ -10,15 +11,20 @@ export default function Search() {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState<Concert[]>([]);
   const [isSearched, setIsSearched] = useState(false);
+  const [error, setError] = useState<Error>();
 
   const searchDiscoveryConcerts = async () => {
-    setIsLoading(true);
-    setIsSearched(true);
-    const results = await concertClient.searchDiscoveryConcerts({
-      keyword: searchTerm,
-    });
-    setSearchResults(results);
-    setIsLoading(false);
+    try {
+      setIsLoading(true);
+      setIsSearched(true);
+      const results = await concertClient.searchDiscoveryConcerts({
+        keyword: searchTerm,
+      });
+      setSearchResults(results);
+      setIsLoading(false);
+    } catch (err: any) {
+      setError(err);
+    }
   }
 
   return (
@@ -50,6 +56,7 @@ export default function Search() {
               </div> :
               <div>No results found</div>}
         </div>}
+        {error && <ErrorModal error={error}/>}
       </div>
   );
 }
