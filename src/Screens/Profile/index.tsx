@@ -3,12 +3,12 @@ import {useSelector} from "react-redux";
 import {UserState} from "../../Store";
 import * as userClient from "../../Clients/userClient";
 import {useEffect, useState} from "react";
-import {FaCheck, FaPlus, FaUser} from "react-icons/fa"
-import "./index.css"
-import ConcertCard from "../../Components/Card";
+import {FaCheck, FaPlus, FaUser} from "react-icons/fa";
+import "./index.css";
 import {Concert} from "../../Clients/Schemas/concerts";
 import {User} from "../../Clients/Schemas/users";
 import ErrorModal from "../../Components/Modals/ErrorModal";
+import SimpleDisplay from "../../Components/Displays/SimpleDisplay";
 
 export default function Profile() {
   const {userId} = useParams();
@@ -91,32 +91,16 @@ export default function Profile() {
           <div className="d-flex flex-wrap bg-black rounded-4 p-4">
             <div className="col-12 mb-4">
               <h4>Upcoming Concerts</h4>
-              {upcomingConcerts && upcomingConcerts.length > 0 ? <div className="card-group">
-                    <ul className="list-group list-group-horizontal">
-                      {upcomingConcerts.map((concert, i) => (
-                              <li key={'saved' + i}>
-                                <ConcertCard concert={concert}/>
-                              </li>
-                          )
-                      )}
-                    </ul>
-                  </div> :
+              {upcomingConcerts && upcomingConcerts.length > 0 ?
+                  <SimpleDisplay concerts={upcomingConcerts}/> :
                   <div>
                     <h6 className="text-dark-emphasis">No concerts yet...</h6>
                   </div>}
             </div>
             <div className="col-12 mb-4">
               <h4>Past Concerts</h4>
-              {pastConcerts && pastConcerts.length > 0 ? <div className="card-group">
-                    <ul className="list-group list-group-horizontal">
-                      {pastConcerts.map((concert, i) => (
-                              <li key={'saved' + i}>
-                                <ConcertCard concert={concert}/>
-                              </li>
-                          )
-                      )}
-                    </ul>
-                  </div> :
+              {pastConcerts && pastConcerts.length > 0 ?
+                  <SimpleDisplay concerts={pastConcerts}/> :
                   <div>
                     <h6 className="text-dark-emphasis">No concerts yet...</h6>
                   </div>}

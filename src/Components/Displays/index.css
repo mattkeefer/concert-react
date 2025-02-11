@@ -1,0 +1,8 @@
+.card-group {
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.card-group ul li {
+  margin-right: 10px;
+}
