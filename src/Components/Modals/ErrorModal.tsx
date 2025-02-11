@@ -1,5 +1,5 @@
 import {useNavigate} from "react-router";
-import BaseModal from "../BaseModal";
+import BaseModal from "./BaseModal";
 
 export default function ErrorModal({error}: { error: Error }) {
   const navigate = useNavigate();

@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import "./index.css";
 import * as concertClient from "../../Clients/concertClient";
 import {Concert} from "../../Clients/Schemas/concerts";
-import ErrorModal from "../../Components/ErrorModal";
+import ErrorModal from "../../Components/Modals/ErrorModal";
 
 export default function Home() {
 

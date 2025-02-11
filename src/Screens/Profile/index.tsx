@@ -8,7 +8,7 @@ import "./index.css"
 import ConcertCard from "../../Components/Card";
 import {Concert} from "../../Clients/Schemas/concerts";
 import {User} from "../../Clients/Schemas/users";
-import ErrorModal from "../../Components/ErrorModal";
+import ErrorModal from "../../Components/Modals/ErrorModal";
 
 export default function Profile() {
   const {userId} = useParams();

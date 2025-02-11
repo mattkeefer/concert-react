@@ -6,7 +6,7 @@ import {useNavigate} from "react-router";
 import {useDispatch} from "react-redux";
 import {setUser} from "../../../Store/userReducer";
 import {User} from "../../../Clients/Schemas/users";
-import ErrorAlert from "../../../Components/ErrorAlert";
+import ErrorAlert from "../../../Components/Alerts/ErrorAlert";
 
 export default function Login() {
   const [credentials, setCredentials] = useState({
@@ -16,6 +16,8 @@ export default function Login() {
   const [error, setError] = useState<Error>();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const errorMessage = "Login details are incorrect. Please fix and try again.";
 
   const login = async () => {
     try {
@@ -30,7 +32,7 @@ export default function Login() {
   return (
       <>
         {error && <div className="container my-4 col-md-6">
-          <ErrorAlert message="Login details are incorrect. Please fix and try again."/>
+          <ErrorAlert message={errorMessage}/>
         </div>}
         <div className="container bg-black my-4 rounded-4 p-4 text-black-50 col-md-6">
           <h3 className="text-white">Login</h3>

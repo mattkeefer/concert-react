@@ -9,7 +9,7 @@ import "./index.css";
 import {FaLocationDot, FaCalendarDays, FaBuilding} from "react-icons/fa6";
 import {FaHeart, FaRegHeart} from "react-icons/fa";
 import {Concert} from "../../Clients/Schemas/concerts";
-import ErrorModal from "../../Components/ErrorModal";
+import ErrorModal from "../../Components/Modals/ErrorModal";
 
 
 export default function ConcertDetailsScreen() {

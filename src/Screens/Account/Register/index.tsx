@@ -6,7 +6,7 @@ import {useDispatch} from "react-redux";
 import * as userClient from "../../../Clients/userClient";
 import {setUser} from "../../../Store/userReducer";
 import {User} from "../../../Clients/Schemas/users";
-import ErrorAlert from "../../../Components/ErrorAlert";
+import ErrorAlert from "../../../Components/Alerts/ErrorAlert";
 
 export default function Register() {
   const [credentials, setCredentials] = useState({
@@ -19,6 +19,8 @@ export default function Register() {
   const [error, setError] = useState<Error>();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const errorMessage = "Account information is missing or incomplete. Please fix and try again.";
 
   const register = async () => {
     try {
@@ -33,7 +35,7 @@ export default function Register() {
   return (
       <>
         {error && <div className="container my-4 col-md-6">
-          <ErrorAlert message="Account information is missing or incomplete. Please fix and try again."/>
+          <ErrorAlert message={errorMessage}/>
         </div>}
         <div className="container bg-black my-4 rounded-4 p-4 text-black-50 col-md-6">
           <h3 className="text-white">Create Account</h3>
