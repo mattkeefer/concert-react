@@ -6,6 +6,7 @@ export enum ConcertSource {
 
 
 export interface ConcertSearchParams {
+  keyword?: string,
   artist?: string,
   venue?: string,
   city?: string,

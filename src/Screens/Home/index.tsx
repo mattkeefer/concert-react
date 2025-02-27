@@ -18,7 +18,19 @@ export default function Home() {
       setConcerts(res);
       setIsLoading(false);
     } catch (err: any) {
-      setError(err)
+      setError(err);
+    }
+  }
+
+  const searchConcerts = async (keyword: string) => {
+    try {
+      const res = await concertClient.searchConcerts({
+        keyword: keyword,
+        startDate: new Date().toDateString(),
+      });
+      setConcerts(res);
+    } catch (err: any) {
+      setError(err);
     }
   }
 
@@ -30,7 +42,7 @@ export default function Home() {
       <div className="container py-3">
         <h1>Upcoming Concerts</h1>
         <div className="my-4">
-          <SearchBar searchFunction={() => console.log("hi")} placeholder="Filter by keyword"/>
+          <SearchBar searchFunction={searchConcerts} placeholder="Filter by keyword"/>
         </div>
         <div>
           {isLoading && <div className="text-center">

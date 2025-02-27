@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {ChangeEvent, useState} from "react";
 import {FaSearch} from "react-icons/fa";
 
 export default function SearchBar({searchFunction, placeholder = "Keyword", padded = false}: {
@@ -8,18 +8,27 @@ export default function SearchBar({searchFunction, placeholder = "Keyword", padd
 }) {
   const [searchTerm, setSearchTerm] = useState("");
 
+  const searchTermChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+    if (!padded) {
+      searchFunction(e.target.value);
+    }
+  }
+
   return (
       <div className="text-black-50">
         <div className="input-group">
           <input type="text" className={padded ? "form-control p-3" : "form-control p-2"}
-                 id="searchTerm" placeholder={placeholder}
-                 value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
-          <button
-              className={padded ? "btn btn-danger btn-accent align-middle p-3" : "btn btn-danger btn-accent align-middle"}
+                 id="searchTerm" placeholder={placeholder} pattern="[A-Za-z]"
+                 value={searchTerm} onChange={searchTermChange}/>
+          {padded &&
+            <button
+              className="btn btn-danger btn-accent align-middle p-3"
               onClick={() => searchFunction(searchTerm)}
               type="submit">
-            <FaSearch/>
-          </button>
+              <FaSearch/>
+            </button>
+          }
         </div>
       </div>
 
