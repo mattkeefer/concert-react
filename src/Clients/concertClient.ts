@@ -83,5 +83,6 @@ function convertDiscoveryConcertToConcert(discovery: DiscoveryConcert): Concert 
       country: venue?.country?.countryCode || "Unknown Country",
       address: venue?.address?.line1 || "Unknown Address",
     },
+    attendingUsers: [],
   }
 }

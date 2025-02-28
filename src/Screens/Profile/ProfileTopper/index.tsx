@@ -2,7 +2,7 @@ import {User} from "../../../Clients/Schemas/users";
 import {FaCheck, FaPlus, FaUser} from "react-icons/fa";
 import "./index.css";
 import {useState} from "react";
-import BaseModal from "../../../Components/Modals/BaseModal";
+import UserListModal from "../../../Components/Modals/UserListModal";
 
 export default function ProfileTopper({user, userId, profile, followUser, unfollowUser}: {
   user: User,
@@ -13,7 +13,7 @@ export default function ProfileTopper({user, userId, profile, followUser, unfoll
 }) {
   const [show, setShow] = useState(false);
   const [displayTitle, setDisplayTitle] = useState("");
-  const [displayUsers, setDisplayUsers] = useState<string[]>([]);
+  const [displayUsers, setDisplayUsers] = useState<any[]>([]);
 
   const handleClose = () => {
     setShow(false);
@@ -48,7 +48,7 @@ export default function ProfileTopper({user, userId, profile, followUser, unfoll
               </a>
             </div>
             {user._id !== userId && <div>
-              {profile.followers.includes(user._id) ?
+              {profile.followers.map(u => u._id).includes(user._id) ?
                   <button className="btn btn-dark mt-3 d-flex align-items-center"
                           type="button"
                           onClick={() => unfollowUser()}>
@@ -62,9 +62,10 @@ export default function ProfileTopper({user, userId, profile, followUser, unfoll
             </div>}
           </div>
         </div>
-        {show && <BaseModal title={displayTitle} titleColor="text-accent"
-                            message={displayUsers.length > 0 ? displayUsers.join('\n') : 'No one yet...'}
-                            closeButton={true} onHide={handleClose}/>}
+        {show && <UserListModal show={show}
+                                title={displayTitle}
+                                users={displayUsers}
+                                onHide={handleClose}/>}
       </div>
   );
 }

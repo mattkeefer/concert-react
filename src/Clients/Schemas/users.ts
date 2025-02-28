@@ -5,7 +5,7 @@ export interface User {
   firstName: string,
   lastName: string,
   email: string,
-  following: string[],
-  followers: string[],
-  savedConcerts: string[],
+  following: string[] | any[],
+  followers: string[] | any[],
+  savedConcerts: string[] | any[],
 }
