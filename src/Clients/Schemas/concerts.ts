@@ -31,6 +31,7 @@ export interface Concert {
     country: string,
     address?: string,
   },
+  attendingUsers: string[],
   image?: string,
   startDate: Date,
   endDate?: Date,
