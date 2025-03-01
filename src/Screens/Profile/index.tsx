@@ -50,18 +50,18 @@ export default function Profile() {
       await userClient.unfollowUser(user._id, userId!);
       fetchProfile();
     } catch (err: any) {
-      console.log(error);
+      setError(err);
     }
   }
 
   return (
-      <div className="container py-3">
+      <div className="container py-4">
         {profile && <div>
           <ProfileTopper user={user} userId={userId} profile={profile} followUser={followUser}
                      unfollowUser={unfollowUser}/>
           <div className="d-flex flex-wrap bg-black rounded-4 p-4">
             <div className="col-12 mb-4">
-              <h4>Upcoming Concerts</h4>
+              <h4>Upcoming Concerts &#8226; {upcomingConcerts?.length}</h4>
               {upcomingConcerts && upcomingConcerts.length > 0 ?
                   <SimpleDisplay concerts={upcomingConcerts}/> :
                   <div>
@@ -69,7 +69,7 @@ export default function Profile() {
                   </div>}
             </div>
             <div className="col-12 mb-4">
-              <h4>Past Concerts</h4>
+              <h4>Past Concerts &#8226; {pastConcerts?.length}</h4>
               {pastConcerts && pastConcerts.length > 0 ?
                   <SimpleDisplay concerts={pastConcerts}/> :
                   <div>

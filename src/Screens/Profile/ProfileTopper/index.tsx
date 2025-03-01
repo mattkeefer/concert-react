@@ -3,6 +3,7 @@ import {FaCheck, FaPlus, FaUser} from "react-icons/fa";
 import "./index.css";
 import {useState} from "react";
 import UserListModal from "../../../Components/Modals/UserListModal";
+import {Image} from "react-bootstrap";
 
 export default function ProfileTopper({user, userId, profile, followUser, unfollowUser}: {
   user: User,
@@ -25,11 +26,13 @@ export default function ProfileTopper({user, userId, profile, followUser, unfoll
   }
 
   return (
-      <div className="d-flex mt-4 mb-3 justify-content-center flex-wrap bg-black rounded-4">
+      <div className="d-flex mb-3 justify-content-center flex-wrap bg-black rounded-4">
         <div className="col-4 text-center d-flex justify-content-center align-items-center">
           <div
               className="bg-dark profile-img-container my-4 d-flex align-items-center justify-content-center">
-            <FaUser className="profile-img-icon"/>
+            {profile.profilePicture ?
+                <Image roundedCircle fluid src={profile.profilePicture}/> :
+                <FaUser className="profile-img-icon"/>}
           </div>
         </div>
         <div className="col-8 p-4 d-flex align-items-center">

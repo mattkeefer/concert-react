@@ -8,4 +8,7 @@ export interface User {
   following: string[] | any[],
   followers: string[] | any[],
   savedConcerts: string[] | any[],
+  profilePicture?: string,
+  bio?: string,
+  createdAt: string,
 }

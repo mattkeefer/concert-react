@@ -5,7 +5,8 @@ export enum ConcertSource {
 }
 
 
-export interface ConcertSearchParams {
+export interface ConcertSearchParams { // filters for searching a concert (using concert data)
+  userId?: string,
   keyword?: string,
   artist?: string,
   venue?: string,
@@ -13,6 +14,8 @@ export interface ConcertSearchParams {
   startDate?: string,
   endDate?: string,
   sort?: boolean,
+  following?: boolean, // whether a user this user follows has saved the concert
+  saved?: boolean, // whether the user has saved the concert
 }
 
 
