@@ -18,3 +18,7 @@
   height: 550px;
   overflow: auto;
 }
+
+.clickable-list-item {
+  cursor: pointer;
+}
