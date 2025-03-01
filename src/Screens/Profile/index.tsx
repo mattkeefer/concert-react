@@ -22,7 +22,7 @@ export default function Profile() {
     try {
       const u = await userClient.profile(userId as string);
       setProfile(u);
-      const c = await userClient.getSavedConcertsForUserById(user._id);
+      const c = await userClient.getSavedConcertsForUserById(userId as string);
       const past = c.filter((concert: Concert) => new Date(concert.startDate) < new Date());
       setPastConcerts(past);
       const upcoming = c.filter((concert: Concert) => new Date(concert.startDate) >= new Date());
