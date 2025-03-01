@@ -1,9 +1,3 @@
-.concert-info-list-item {
-  background-color: #121212;
-  border: 0;
-  color: white;
-}
-
 .card.concert-info-card:hover {
   filter: brightness(100%) !important;
   transform: scale(100%) !important;
@@ -11,14 +5,4 @@
 
 .concert-top {
   height: 15rem;
-}
-
-.concert-icon {
-  height: 2.5rem;
-}
-
-.concert-img-icon {
-  height: 2.5rem;
-  width: 2.5rem;
-  object-fit: cover;
 }

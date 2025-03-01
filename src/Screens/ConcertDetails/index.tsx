@@ -10,6 +10,7 @@ import {FaLocationDot, FaCalendarDays, FaBuilding} from "react-icons/fa6";
 import {FaHeart, FaRegHeart} from "react-icons/fa";
 import {Concert} from "../../Clients/Schemas/concerts";
 import ErrorModal from "../../Components/Modals/ErrorModal";
+import SimpleList from "../../Components/Lists/SimpleList";
 
 
 export default function ConcertDetailsScreen() {
@@ -109,16 +110,7 @@ export default function ConcertDetailsScreen() {
               </div>
               <div className="col-lg-4 col-12 p-4 bg-black rounded-4 ms-lg-2 my-lg-0 my-4">
                 <h5 className="mb-3">Lineup</h5>
-                <ul className="list-group list-group-flush list-unstyled">
-                  {concert.artists.map((a, i) => <li
-                      className="list-group-item concert-info-list-item rounded mb-2"
-                      key={a.name + i}>
-                    <div className="rounded-5 d-flex justify-content-between align-items-center">
-                      {a.name}
-                      <img src={a.image} alt={a.name} className="rounded-5 concert-img-icon"/>
-                    </div>
-                  </li>)}
-                </ul>
+                <SimpleList listItems={concert.artists}/>
               </div>
             </div>
         }
