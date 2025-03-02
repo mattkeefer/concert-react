@@ -12,3 +12,7 @@ export interface User {
   bio?: string,
   createdAt: string,
 }
+
+export interface UserSearchParams {
+  username: string,
+}

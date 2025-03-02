@@ -30,7 +30,7 @@ export default function UserListModal({show, users, title, onHide}: {
         </Modal.Header>
         <Modal.Body>
           {users.length == 0 && "No one yet..."}
-          {users.length > 0 && <SimpleList listItems={listItems} clickable/>}
+          {users.length > 0 && <SimpleList listItems={listItems} clickable className={"bg-body-secondary"}/>}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={onHide}>

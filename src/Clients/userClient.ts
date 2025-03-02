@@ -1,5 +1,5 @@
 import axios from "axios";
-import {User} from "./Schemas/users";
+import {User, UserSearchParams} from "./Schemas/users";
 
 const api = axios.create({
   withCredentials: true,
@@ -34,6 +34,11 @@ export const getUserByUsername = async (username: string) => {
   );
   return response.data;
 };
+
+export const getUsersByQuery = async (searchParams: UserSearchParams) => {
+  const res = await api.get(`${NODE_API}/users`, {params: searchParams});
+  return res.data;
+}
 
 export const updateUser = async (user: User) => {
   const response = await api.put(

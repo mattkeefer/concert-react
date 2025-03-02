@@ -5,7 +5,7 @@ export enum ConcertSource {
 }
 
 
-export interface ConcertSearchParams { // filters for searching a concert (using concert data)
+export interface ConcertSearchParams {
   userId?: string,
   keyword?: string,
   artist?: string,

@@ -1,8 +1,9 @@
 import "./index.css";
 
-export default function SimpleList({listItems, clickable}: {
+export default function SimpleList({listItems, clickable, className}: {
   listItems: { name: string, image?: string, onClick?: () => void }[],
   clickable?: boolean,
+  className?: string,
 }) {
   return (
       <ul className={listItems.length > 7 ?
@@ -11,8 +12,8 @@ export default function SimpleList({listItems, clickable}: {
         {listItems.map((item, i) => (
             <li
                 className={clickable ?
-                    "list-group-item concert-info-list-item rounded mb-2 clickable-list-item" :
-                    "list-group-item concert-info-list-item rounded mb-2"}
+                    "list-group-item concert-info-list-item rounded mb-2 clickable-list-item " + className :
+                    "list-group-item concert-info-list-item rounded mb-2 " + className}
                 onClick={item.onClick}
                 key={item.name + i}>
               <div className="rounded-5 d-flex justify-content-between align-items-center">
