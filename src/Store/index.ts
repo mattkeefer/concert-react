@@ -1,7 +1,8 @@
 import {configureStore} from "@reduxjs/toolkit";
 import {persistStore, persistReducer} from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import rootReducer from "../Users/reducer";
+import rootReducer from "./userReducer";
+import {User} from "../Clients/Schemas/users";
 
 const persistConfig = {
   key: 'root',
@@ -12,7 +13,7 @@ const userReducer = persistReducer(persistConfig, rootReducer);
 
 export interface UserState {
   userReducer: {
-    user: any;
+    user: User;
   }
 }
 

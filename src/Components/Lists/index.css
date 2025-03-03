@@ -1,0 +1,24 @@
+.concert-info-list-item {
+  background-color: #121212;
+  border: 0;
+  color: white;
+}
+
+.concert-icon {
+  height: 2.5rem;
+}
+
+.concert-img-icon {
+  height: 2.5rem;
+  width: 2.5rem;
+  object-fit: cover;
+}
+
+.simple-list {
+  height: 550px;
+  overflow: auto;
+}
+
+.clickable-list-item {
+  cursor: pointer;
+}

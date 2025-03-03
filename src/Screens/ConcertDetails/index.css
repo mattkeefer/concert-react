@@ -1,0 +1,8 @@
+.card.concert-info-card:hover {
+  filter: brightness(100%) !important;
+  transform: scale(100%) !important;
+}
+
+.concert-top {
+  height: 15rem;
+}
