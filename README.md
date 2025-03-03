@@ -1,3 +1,4 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/d50f3150-83d5-4d03-a0a5-8e0a9548e7b9/deploy-status)](https://app.netlify.com/sites/concert-connect/deploys)
 # Concert Connect
 ### Explore and share concerts with friends!
 
