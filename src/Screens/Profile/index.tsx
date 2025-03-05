@@ -1,6 +1,6 @@
 import {useParams} from "react-router";
 import {useSelector} from "react-redux";
-import {UserState} from "../../Store";
+import {UserAuthState} from "../../Store";
 import * as userClient from "../../Clients/userClient";
 import {useEffect, useState} from "react";
 import "./index.css";
@@ -12,7 +12,7 @@ import ProfileTopper from "./ProfileTopper";
 
 export default function Profile() {
   const {userId} = useParams();
-  const user = useSelector((state: UserState) => state.userReducer.user);
+  const userAuth = useSelector((state: UserAuthState) => state.userAuthReducer.userAuth);
   const [profile, setProfile] = useState<User>();
   const [upcomingConcerts, setUpcomingConcerts] = useState<Concert[]>();
   const [pastConcerts, setPastConcerts] = useState<Concert[]>();
@@ -20,7 +20,7 @@ export default function Profile() {
 
   const fetchProfile = async () => {
     try {
-      const u = await userClient.profile(userId as string);
+      const u = await userClient.profile(userId as string, userAuth.token);
       setProfile(u);
       const c = await userClient.getSavedConcertsForUserById(userId as string);
       const past = c.filter((concert: Concert) => new Date(concert.startDate) < new Date());
@@ -38,7 +38,7 @@ export default function Profile() {
 
   const followUser = async () => {
     try {
-      await userClient.followUser(user._id, userId!);
+      await userClient.followUser(userAuth._id, userId!, userAuth.token);
       fetchProfile();
     } catch (err: any) {
       setError(err);
@@ -47,7 +47,7 @@ export default function Profile() {
 
   const unfollowUser = async () => {
     try {
-      await userClient.unfollowUser(user._id, userId!);
+      await userClient.unfollowUser(userAuth._id, userId!, userAuth.token);
       fetchProfile();
     } catch (err: any) {
       setError(err);
@@ -57,7 +57,7 @@ export default function Profile() {
   return (
       <div className="container py-4">
         {profile && <div>
-          <ProfileTopper user={user} userId={userId} profile={profile} followUser={followUser}
+          <ProfileTopper userAuth={userAuth} userId={userId} profile={profile} followUser={followUser}
                      unfollowUser={unfollowUser}/>
           <div className="d-flex flex-wrap bg-black rounded-4 p-4">
             <div className="col-12 mb-4">

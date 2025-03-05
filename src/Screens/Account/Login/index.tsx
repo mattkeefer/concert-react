@@ -4,8 +4,7 @@ import "../index.css";
 import {Link} from "react-router-dom";
 import {useNavigate} from "react-router";
 import {useDispatch} from "react-redux";
-import {setUser} from "../../../Store/userReducer";
-import {User} from "../../../Clients/Schemas/users";
+import {setUserAuth} from "../../../Store/userAuthReducer";
 import ErrorAlert from "../../../Components/Alerts/ErrorAlert";
 
 export default function Login() {
@@ -21,8 +20,8 @@ export default function Login() {
 
   const login = async () => {
     try {
-      const newUser: User = await userClient.loginUser(credentials);
-      dispatch(setUser(newUser));
+      const auth = await userClient.loginUser(credentials);
+      dispatch(setUserAuth({_id: auth.user._id, token: auth.token}));
       navigate("/Home");
     } catch (err: any) {
       setError(err);

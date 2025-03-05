@@ -5,8 +5,8 @@ import {useState} from "react";
 import UserListModal from "../../../Components/Modals/UserListModal";
 import {Image} from "react-bootstrap";
 
-export default function ProfileTopper({user, userId, profile, followUser, unfollowUser}: {
-  user: User,
+export default function ProfileTopper({userAuth, userId, profile, followUser, unfollowUser}: {
+  userAuth: any,
   userId: any,
   profile: User,
   followUser: () => void,
@@ -50,8 +50,8 @@ export default function ProfileTopper({user, userId, profile, followUser, unfoll
                 <h5>{profile.following.length} following</h5>
               </a>
             </div>
-            {user._id !== userId && <div>
-              {profile.followers.map(u => u._id).includes(user._id) ?
+            {userAuth._id !== userId && <div>
+              {profile.followers.map(u => u._id).includes(userAuth._id) ?
                   <button className="btn btn-dark mt-3 d-flex align-items-center"
                           type="button"
                           onClick={() => unfollowUser()}>

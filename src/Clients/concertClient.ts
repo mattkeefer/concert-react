@@ -31,8 +31,16 @@ export const deleteConcert = async (concertId: string) => {
   return res.data;
 }
 
-export const searchConcerts = async (searchParams: ConcertSearchParams) => {
-  const res = await api.get(`${NODE_API}/concerts`, {params: searchParams});
+export const fetchConcerts = async (searchParams: ConcertSearchParams) => {
+  const res = await api.get(`${NODE_API}/concerts/no-auth`, {params: searchParams});
+  return res.data;
+}
+
+export const searchConcerts = async (searchParams: ConcertSearchParams, token: string) => {
+  const res = await api.get(`${NODE_API}/concerts`, {
+    params: searchParams,
+    headers: {'Authorization': `Bearer ${token}`}
+  });
   return res.data;
 }
 

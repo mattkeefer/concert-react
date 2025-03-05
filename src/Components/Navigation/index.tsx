@@ -2,23 +2,23 @@ import {useLocation, useNavigate} from "react-router";
 import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import "./index.css";
-import {UserState} from "../../Store";
+import {UserAuthState} from "../../Store";
 import {useDispatch, useSelector} from "react-redux";
 import * as client from "../../Clients/userClient";
-import {resetUser} from "../../Store/userReducer";
+import {resetUserAuth} from "../../Store/userAuthReducer";
 
 export default function Navigation() {
-  const user = useSelector((state: UserState) => state.userReducer.user);
+  const userAuth = useSelector((state: UserAuthState) => state.userAuthReducer.userAuth);
   const {pathname} = useLocation();
-  const [currUser, setCurrUser] = useState(user);
+  const [currUserAuth, setCurrUserAuth] = useState(userAuth);
   const [path, setPath] = useState(pathname);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
-    setCurrUser(user);
-  }, [user]);
+    setCurrUserAuth(userAuth);
+  }, [userAuth]);
 
   useEffect(() => {
     setPath(pathname);
@@ -27,7 +27,7 @@ export default function Navigation() {
   const secureLinks = [
     {label: 'Home', location: '/Home'},
     {label: 'Search', location: '/Search'},
-    {label: 'Profile', location: `/Profile/${currUser._id}`},
+    {label: 'Profile', location: `/Profile/${currUserAuth._id}`},
   ];
 
   const unsecureLinks = [
@@ -36,8 +36,7 @@ export default function Navigation() {
   ];
 
   const logout = async () => {
-    await client.logout();
-    dispatch(resetUser());
+    dispatch(resetUserAuth());
     navigate("/");
   }
 
@@ -53,7 +52,7 @@ export default function Navigation() {
         </div>
         <div className="col-4">
           <ul className="navbar-nav justify-content-center">
-            {currUser._id !== null ? secureLinks.map((link, i) => (
+            {currUserAuth._id !== null ? secureLinks.map((link, i) => (
                 <li key={link.label} className="nav-item">
                   <Link
                       className={path.includes(link.label) ? "font-weight-bold nav-link active" : "nav-link"}
@@ -70,7 +69,7 @@ export default function Navigation() {
           </ul>
         </div>
         <div className="col-4 text-end">
-          {currUser._id !== null ?
+          {currUserAuth._id !== null ?
               <button className="btn btn-dark me-4" onClick={logout}>Logout</button> :
               <button className="btn btn-dark me-4" onClick={login}>Login</button>}
         </div>

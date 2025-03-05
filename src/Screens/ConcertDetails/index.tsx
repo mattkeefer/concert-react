@@ -1,7 +1,6 @@
 import {useParams} from "react-router";
-import {UserState} from "../../Store";
-import {useSelector, useDispatch} from "react-redux";
-import {setUser} from "../../Store/userReducer";
+import {UserAuthState} from "../../Store";
+import {useSelector} from "react-redux";
 import * as concertClient from "../../Clients/concertClient";
 import * as userClient from "../../Clients/userClient";
 import {useEffect, useState} from "react";
@@ -20,8 +19,7 @@ export default function ConcertDetailsScreen() {
   const [isSaved, setIsSaved] = useState(false);
   const [error, setError] = useState<Error>();
 
-  const user = useSelector((state: UserState) => state.userReducer.user);
-  const dispatch = useDispatch();
+  const userAuth = useSelector((state: UserAuthState) => state.userAuthReducer.userAuth);
 
   const fetchConcert = async () => {
     try {
@@ -31,7 +29,7 @@ export default function ConcertDetailsScreen() {
         const savedConcert: Concert = await concertClient.getConcertById(concertId);
         if (savedConcert) {
           setConcert({...savedConcert, startDate: new Date(savedConcert.startDate)});
-          setIsSaved(user && user.savedConcerts && user.savedConcerts.includes(savedConcert._id));
+          setIsSaved(userAuth && savedConcert.attendingUsers.includes(userAuth._id));
         }
         setIsLoading(false);
       }
@@ -47,11 +45,9 @@ export default function ConcertDetailsScreen() {
   const saveConcert = async () => {
     try {
       if (!isSaved) {
-        const u = await userClient.saveConcert(user._id, concert!._id);
-        dispatch(setUser({...user, savedConcerts: u.savedConcerts}));
+        await userClient.saveConcert(userAuth._id, concert!._id, userAuth.token);
       } else {
-        const u = await userClient.unsaveConcert(user._id, concert!._id);
-        dispatch(setUser({...user, savedConcerts: u.savedConcerts}));
+        await userClient.unsaveConcert(userAuth._id, concert!._id, userAuth.token);
       }
       setIsSaved(!isSaved);
     } catch (err: any) {

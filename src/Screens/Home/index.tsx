@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import "./index.css";
 import * as concertClient from "../../Clients/concertClient";
 import {Concert, ConcertSearchParams} from "../../Clients/Schemas/concerts";
@@ -7,7 +7,7 @@ import SearchBar from "../../Components/SearchBar";
 import SimpleDisplay from "../../Components/Displays/SimpleDisplay";
 import {Button} from "react-bootstrap";
 import {useSelector} from "react-redux";
-import {UserState} from "../../Store";
+import {UserAuthState} from "../../Store";
 
 export default function Home() {
   const [concerts, setConcerts] = useState<[Concert]>();
@@ -15,7 +15,18 @@ export default function Home() {
   const [error, setError] = useState<Error>();
   const [filters, setFilters] = useState<ConcertSearchParams>();
   const [keyword, setKeyword] = useState("");
-  const user = useSelector((state: UserState) => state.userReducer.user);
+  const userAuth = useSelector((state: UserAuthState) => state.userAuthReducer.userAuth);
+
+  const fetchConcerts = async () => {
+    try {
+      setIsLoading(true);
+      const res = await concertClient.fetchConcerts({startDate: new Date().toDateString()});
+      setConcerts(res);
+      setIsLoading(false);
+    } catch (err: any) {
+      setError(err);
+    }
+  }
 
   const searchConcerts = async (keyword: string) => {
     try {
@@ -23,10 +34,10 @@ export default function Home() {
       setKeyword(keyword);
       const res = await concertClient.searchConcerts({
         ...filters,
-        userId: user?._id || '',
+        userId: userAuth?._id || '',
         keyword: keyword,
         startDate: new Date().toDateString(),
-      });
+      }, userAuth.token);
       setConcerts(res);
       setIsLoading(false);
     } catch (err: any) {
@@ -35,7 +46,13 @@ export default function Home() {
   }
 
   useEffect(() => {
-    searchConcerts(keyword);
+    fetchConcerts();
+  }, []);
+
+  useEffect(() => {
+    if (filters) {
+      searchConcerts(keyword);
+    }
   }, [filters]);
 
   return (

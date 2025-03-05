@@ -48,30 +48,34 @@ export const updateUser = async (user: User) => {
   return response.data;
 };
 
-export const saveConcert = async (userId: string, concertId: string) => {
+export const saveConcert = async (userId: string, concertId: string, token: string) => {
   const response = await api.post(
       `${NODE_API}/users/${userId}/save-concert/${concertId}`,
+      {}, {headers: {'Authorization': `Bearer ${token}`}}
   );
   return response.data;
 };
 
-export const unsaveConcert = async (userId: string, concertId: string) => {
+export const unsaveConcert = async (userId: string, concertId: string, token: string) => {
   const response = await api.post(
       `${NODE_API}/users/${userId}/unsave-concert/${concertId}`,
+      {}, {headers: {'Authorization': `Bearer ${token}`}}
   );
   return response.data;
 };
 
-export const followUser = async (userId: string, targetUserId: string) => {
+export const followUser = async (userId: string, targetUserId: string, token: string) => {
   const response = await api.post(
       `${NODE_API}/users/${userId}/follow/${targetUserId}`,
+      {}, {headers: {'Authorization': `Bearer ${token}`}}
   );
   return response.data;
 };
 
-export const unfollowUser = async (userId: string, targetUserId: string) => {
+export const unfollowUser = async (userId: string, targetUserId: string, token: string) => {
   const response = await api.post(
       `${NODE_API}/users/${userId}/unfollow/${targetUserId}`,
+      {}, {headers: {'Authorization': `Bearer ${token}`}}
   );
   return response.data;
 };
@@ -98,16 +102,10 @@ export const loginUser = async (credentials: { email: string, password: string }
   return response.data;
 };
 
-export const profile = async (userId: string) => {
+export const profile = async (userId: string, token: string) => {
   const response = await api.post(
-      `${NODE_API}/users/profile/${userId}`
-  );
-  return response.data;
-};
-
-export const logout = async () => {
-  const response = await api.post(
-      `${NODE_API}/users/logout`
+      `${NODE_API}/users/profile/${userId}`,
+      {}, {headers: {'Authorization': `Bearer ${token}`}}
   );
   return response.data;
 };
