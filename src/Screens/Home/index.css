@@ -1,13 +1,13 @@
 :root {
-  --accent-color: #F2305F;
-  /*--accent-color: #FB8334; */
+  --accent-color: #03ABEA;
+  /*--accent-color: #F2305F;*/
 }
 
 .form-switch .form-check-input:focus {
   border-color: rgba(0, 0, 0, 0.25);
   outline: 0;
-  box-shadow: 0 0 2px 4px rgba(242, 48, 95, 0.25);
-  /*box-shadow: 0 0 2px 4px rgba(251, 131, 52, 0.25);*/
+  box-shadow: 0 0 2px 4px rgba(3, 171, 234, 0.25);
+  /*box-shadow: 0 0 2px 4px rgba(242, 48, 95, 0.25);*/
   background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba(0,0,0,0.25)'/></svg>");
 }
 .form-switch .form-check-input:checked {
@@ -15,4 +15,23 @@
   border-color: var(--accent-color);
   border: none;
   background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba(255,255,255,1.0)'/></svg>");
+}
+
+.bg-accent {
+  background-color: var(--accent-color);
+}
+
+.btn-accent {
+  background-color: var(--accent-color);
+}
+
+.btn-accent:hover, .btn-accent:focus, .btn-accent:active {
+  background-color: rgba(3, 171, 234, 0.85) !important;
+  /*background-color: rgba(242, 48, 95, 0.85) !important;*/
+}
+
+.link-accent {
+  color: var(--accent-color);
+  cursor: pointer;
+  text-decoration: none;
 }

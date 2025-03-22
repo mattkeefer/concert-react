@@ -23,7 +23,7 @@ export default function SearchBar({searchFunction, placeholder = "Keyword", padd
                  value={searchTerm} onChange={searchTermChange}/>
           {padded &&
             <button
-              className="btn btn-danger btn-accent align-middle p-3"
+              className="btn btn-primary btn-accent align-middle p-3"
               onClick={() => searchFunction(searchTerm)}
               type="submit">
               <FaSearch/>
