@@ -19,7 +19,7 @@ export default function ConcertDetailsScreen() {
   const [isLoading, setIsLoading] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [error, setError] = useState<Error>();
-  const [isFollowers, setIsFollowers] = useState(true);
+  const [isFollowers, setIsFollowers] = useState(false);
 
   const navigate = useNavigate();
   const userAuth = useSelector((state: UserAuthState) => state.userAuthReducer.userAuth);
@@ -126,7 +126,8 @@ export default function ConcertDetailsScreen() {
               </div>
               <div className="col-12 p-4 bg-black rounded-4 my-4 m-auto">
                 <div className="d-flex justify-content-between">
-                  <h5 className="mb-3">Attending Users</h5>
+                  <h5 className="mb-3">Attending
+                    Users &#8226; {getAttendingUsersByToggle(concert.attendingUsers).length}</h5>
                   <div className="form-check form-switch">
                     <input className="form-check-input" type="checkbox" role="switch"
                            id="simpleSwitch"
