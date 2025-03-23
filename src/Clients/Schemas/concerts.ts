@@ -1,3 +1,5 @@
+import {User} from "./users";
+
 export enum ConcertSource {
   DISCOVERY = "Discovery",
   SETLIST_FM = "Setlist.fm",
@@ -34,7 +36,7 @@ export interface Concert {
     country: string,
     address?: string,
   },
-  attendingUsers: string[],
+  attendingUsers: User[],
   image?: string,
   startDate: Date,
   endDate?: Date,
@@ -60,6 +62,9 @@ export interface DiscoveryConcert {
   locale: string,
   images: {
     url: string,
+    ratio: string,
+    width: number,
+    height: number,
   }[],
   dates: {
     start: {
@@ -102,6 +107,9 @@ export interface DiscoveryConcert {
       name: string,
       images: {
         url: string,
+        ratio: string,
+        width: number,
+        height: number,
       }[],
     }[],
   },

@@ -5,6 +5,11 @@ export default function SimpleList({listItems, clickable, className}: {
   clickable?: boolean,
   className?: string,
 }) {
+  if (listItems.length == 0) {
+    return (
+        <p className="text-white-50">No one yet...</p>
+    )
+  }
   return (
       <ul className={listItems.length > 7 ?
           "list-group list-group-flush list-unstyled simple-list" :

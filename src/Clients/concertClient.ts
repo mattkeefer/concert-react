@@ -65,10 +65,10 @@ function convertDiscoveryConcertToConcert(discovery: DiscoveryConcert): Concert 
     discoveryId: discovery.id,
     artists: discovery._embedded.attractions?.map(attraction => ({
       name: attraction.name,
-      image: attraction.images?.[0]?.url,
+      image: attraction.images?.find(i => i.ratio == '16_9' && i.height > 700)?.url,
     })),
     endDate: discovery.dates.end?.dateTime,
-    image: discovery.images?.[0]?.url,
+    image: discovery.images?.find(i => i.ratio == '16_9' && i.height > 700)?.url,
     setlist: [],
     source: ConcertSource.DISCOVERY,
     startDate: discovery.dates.start.dateTime ?
