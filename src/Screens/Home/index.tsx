@@ -59,10 +59,10 @@ export default function Home() {
       <div className="container py-3">
         <h1>Upcoming Concerts</h1>
         <div className="my-4 row align-items-center">
-          <div className="col-6">
+          <div className="col-lg-8">
             <SearchBar searchFunction={searchConcerts} placeholder="Filter by keyword"/>
           </div>
-          <div className="col-6">
+          <div className="col-lg-4 my-lg-0 mt-2">
             <Button variant={filters?.following ? "light" : "dark"}
                     onClick={() => setFilters({...filters, following: !filters?.following})}
                     className="me-4">Following</Button>
