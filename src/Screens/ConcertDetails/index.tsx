@@ -10,6 +10,7 @@ import {FaHeart, FaRegHeart} from "react-icons/fa";
 import {Concert} from "../../Clients/Schemas/concerts";
 import ErrorModal from "../../Components/Modals/ErrorModal";
 import SimpleList from "../../Components/Lists/SimpleList";
+import {User} from "../../Clients/Schemas/users";
 
 
 export default function ConcertDetailsScreen() {
@@ -18,6 +19,7 @@ export default function ConcertDetailsScreen() {
   const [isLoading, setIsLoading] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [error, setError] = useState<Error>();
+  const [isFollowers, setIsFollowers] = useState(true);
 
   const navigate = useNavigate();
   const userAuth = useSelector((state: UserAuthState) => state.userAuthReducer.userAuth);
@@ -56,6 +58,14 @@ export default function ConcertDetailsScreen() {
     } catch (err: any) {
       setError(err);
     }
+  }
+
+  const handleFollowersToggle = () => {
+    setIsFollowers(!isFollowers);
+  }
+
+  const getAttendingUsersByToggle = (attendingUsers: User[]) => {
+    return isFollowers ? attendingUsers.filter(u => u.followers.includes(userAuth._id)) : attendingUsers;
   }
 
   return (
@@ -115,12 +125,22 @@ export default function ConcertDetailsScreen() {
                 </div>
               </div>
               <div className="col-12 p-4 bg-black rounded-4 my-4 m-auto">
-                <h5 className="mb-3">Attending Users</h5>
-                <SimpleList clickable listItems={concert.attendingUsers.map((u: any) => ({
-                  name: '@' + u.username,
-                  image: u.profilePicture,
-                  onClick: () => navigate(`/Profile/${u._id}`)
-                }))}/>
+                <div className="d-flex justify-content-between">
+                  <h5 className="mb-3">Attending Users</h5>
+                  <div className="form-check form-switch">
+                    <input className="form-check-input" type="checkbox" role="switch"
+                           id="simpleSwitch"
+                           checked={isFollowers} onChange={handleFollowersToggle}/>
+                    <label className="form-check-label"
+                           form="simpleSwitch">{isFollowers ? "Followers" : "All Users"}</label>
+                  </div>
+                </div>
+                <SimpleList clickable
+                            listItems={getAttendingUsersByToggle(concert.attendingUsers).map((u: any) => ({
+                              name: '@' + u.username,
+                              image: u.profilePicture,
+                              onClick: () => navigate(`/Profile/${u._id}`)
+                            }))}/>
               </div>
             </div>
         }
