@@ -11,6 +11,7 @@ import {Concert} from "../../Clients/Schemas/concerts";
 import ErrorModal from "../../Components/Modals/ErrorModal";
 import SimpleList from "../../Components/Lists/SimpleList";
 import {User} from "../../Clients/Schemas/users";
+import {Badge} from "react-bootstrap";
 
 
 export default function ConcertDetailsScreen() {
@@ -85,6 +86,11 @@ export default function ConcertDetailsScreen() {
                     </div>
                   </div>
                   <div className="card-body p-4 z-3">
+                    <div className="d-flex mb-4 flex-wrap">
+                      {concert.tags && concert.tags.map(tag => (
+                          <Badge className="me-2" bg="dark">{tag}</Badge>
+                          ))}
+                    </div>
                     <ul className="list-group list-group-flush list-unstyled">
                       <li className="card-text list-group-item concert-info-list-item rounded">
                         <div className="d-flex align-items-center">

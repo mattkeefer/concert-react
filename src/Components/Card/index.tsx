@@ -30,6 +30,9 @@ export default function ConcertCard({concert}: { concert: Concert }) {
                  style={{height: "14rem", objectFit: "cover"}} alt={concert.title}/>
             {!isDiscoveryConcert && <Badge className="position-absolute m-2 top-0 start-0 rounded"
                                            bg="black">{concert.attendingUsers.length} attending</Badge>}
+            {!isDiscoveryConcert && concert.tags &&
+                <Badge className="position-absolute m-2 top-50 start-0 rounded"
+                       bg="danger">{concert.tags[0]}</Badge>}
           </div>
           <div className="card-body">
             <h5 className="card-title text-nowrap text-truncate">{concert.title}</h5>
