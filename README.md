@@ -6,4 +6,4 @@ This web app will allow users to search for upcoming concerts and mark their int
 <br><br>
 In addition, users will be able to search for upcoming concerts using a variety of filters including location, genre, artist name, and more!
 <br><br>
-![Logo](./public/cc-logo-refresh.png)
+![Logo](./public/cc-logo.png)
