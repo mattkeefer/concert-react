@@ -61,7 +61,7 @@ export default function Login() {
           </div>
           <div className="row">
             <div className="d-flex">
-              <button className="btn btn-danger btn-accent flex-grow-1 py-2"
+              <button className="btn btn-primary btn-accent flex-grow-1 py-2"
                       onClick={login}
                       type="submit">
                 Login

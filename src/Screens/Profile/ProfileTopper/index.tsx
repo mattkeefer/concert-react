@@ -39,7 +39,7 @@ export default function ProfileTopper({userAuth, userId, profile, followUser, un
           <div>
             <h5 className="text-accent">@{profile.username}</h5>
             <h1>{profile.firstName} {profile.lastName}</h1>
-            <div className="d-flex">
+            <div className="d-flex flex-wrap">
               <h5>{profile.savedConcerts.length} saved concerts</h5>
               <h5 className="text-dark-emphasis mx-2">|</h5>
               <a className="link-light" onClick={() => handleShow(profile.followers, 'Followers')}>

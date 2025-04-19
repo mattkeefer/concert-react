@@ -48,7 +48,7 @@ export default function Navigation() {
       <nav className="navbar navbar-expand navbar-dark bg-black">
 
         <div className="col-4">
-          <img src="logo.png" className="ms-4 nav-logo" alt="Concert Connect logo"/>
+          <img src="cc-logo-flat.png" className="ms-4 nav-logo" alt="Concert Connect logo"/>
         </div>
         <div className="col-4">
           <ul className="navbar-nav justify-content-center">
