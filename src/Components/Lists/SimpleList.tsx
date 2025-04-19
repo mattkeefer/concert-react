@@ -17,8 +17,8 @@ export default function SimpleList({listItems, clickable, className}: {
         {listItems.map((item, i) => (
             <li
                 className={clickable ?
-                    "list-group-item concert-info-list-item rounded mb-2 clickable-list-item " + className :
-                    "list-group-item concert-info-list-item rounded mb-2 " + className}
+                    "list-group-item concert-info-list-item rounded mb-2 clickable-list-item bg-dark " + className :
+                    "list-group-item concert-info-list-item rounded mb-2 bg-dark " + className}
                 onClick={item.onClick}
                 key={item.name + i}>
               <div className="rounded-5 d-flex justify-content-between align-items-center">

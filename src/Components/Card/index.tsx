@@ -3,6 +3,7 @@ import "./index.css";
 import {Concert} from "../../Clients/Schemas/concerts";
 import {findOrCreateConcert} from "../../Clients/concertClient";
 import {Badge} from "react-bootstrap";
+import {stringToColor} from "../../Clients/utils";
 
 export default function ConcertCard({concert}: { concert: Concert }) {
 
@@ -30,9 +31,9 @@ export default function ConcertCard({concert}: { concert: Concert }) {
                  style={{height: "14rem", objectFit: "cover"}} alt={concert.title}/>
             {!isDiscoveryConcert && <Badge className="position-absolute m-2 top-0 start-0 rounded"
                                            bg="black">{concert.attendingUsers.length} attending</Badge>}
-            {!isDiscoveryConcert && concert.tags &&
+            {!isDiscoveryConcert && concert.tags && concert.tags[0] &&
                 <Badge className="position-absolute m-2 top-50 start-0 rounded"
-                       bg="danger">{concert.tags[0]}</Badge>}
+                       bg="black" style={{color: stringToColor(concert.tags[0])}}>{concert.tags[0]}</Badge>}
           </div>
           <div className="card-body">
             <h5 className="card-title text-nowrap text-truncate">{concert.title}</h5>

@@ -12,6 +12,7 @@ import ErrorModal from "../../Components/Modals/ErrorModal";
 import SimpleList from "../../Components/Lists/SimpleList";
 import {User} from "../../Clients/Schemas/users";
 import {Badge} from "react-bootstrap";
+import {stringToColor} from "../../Clients/utils";
 
 
 export default function ConcertDetailsScreen() {
@@ -88,24 +89,25 @@ export default function ConcertDetailsScreen() {
                   <div className="card-body p-4 z-3">
                     <div className="d-flex mb-4 flex-wrap">
                       {concert.tags && concert.tags.map(tag => (
-                          <Badge className="me-2" bg="dark">{tag}</Badge>
-                          ))}
+                          <Badge className="me-2" bg="dark"
+                                 style={{color: stringToColor(tag)}}>{tag}</Badge>
+                      ))}
                     </div>
                     <ul className="list-group list-group-flush list-unstyled">
-                      <li className="card-text list-group-item concert-info-list-item rounded">
+                      <li className="card-text list-group-item concert-info-list-item rounded bg-dark">
                         <div className="d-flex align-items-center">
                           <FaCalendarDays className="me-3 concert-icon text-accent"/>
                           {concert.startDate.toDateString()} &#8226; {concert.startDate.toLocaleTimeString().split(":")[0]}:
                           {concert.startDate.toLocaleTimeString().split(":")[1]} PM
                         </div>
                       </li>
-                      <li className="card-text text-nowrap text-truncate list-group-item concert-info-list-item rounded my-2">
+                      <li className="card-text text-nowrap text-truncate list-group-item concert-info-list-item rounded my-2 bg-dark">
                         <div className="d-flex align-items-center flex-wrap">
                           <FaBuilding className="me-3 concert-icon text-accent"/>
                           {concert.venue.name}
                         </div>
                       </li>
-                      <li className="card-text text-nowrap text-truncate list-group-item concert-info-list-item rounded">
+                      <li className="card-text text-nowrap text-truncate list-group-item concert-info-list-item rounded bg-dark">
                         <div className="d-flex align-items-center flex-wrap">
                           <FaLocationDot className="me-3 concert-icon text-accent"/>
                           {concert.venue.city}, {concert.venue.country}

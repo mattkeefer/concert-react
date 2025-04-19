@@ -52,12 +52,16 @@ export const searchDiscoveryConcerts = async (params: any) => {
 
 function convertDiscoveryConcertToConcert(discovery: DiscoveryConcert): Concert {
   const venue = discovery._embedded.venues?.[0]
-  const genreTags = []
+  const genreTags = new Set<string>();
   if (discovery.classifications?.[0]?.genre?.name) {
-    genreTags.push(discovery.classifications?.[0]?.genre?.name)
+    genreTags.add(discovery.classifications?.[0]?.genre?.name)
   }
   if (discovery.classifications?.[0]?.subGenre?.name) {
-    genreTags.push(discovery.classifications?.[0]?.subGenre?.name)
+    genreTags.add(discovery.classifications?.[0]?.subGenre?.name)
+  }
+  if (genreTags.has("Undefined")) {
+    genreTags.delete("Undefined");
+    genreTags.add("Other");
   }
 
   return {
@@ -65,16 +69,16 @@ function convertDiscoveryConcertToConcert(discovery: DiscoveryConcert): Concert 
     discoveryId: discovery.id,
     artists: discovery._embedded.attractions?.map(attraction => ({
       name: attraction.name,
-      image: attraction.images?.find(i => i.ratio == '16_9' && i.height > 700)?.url,
+      image: attraction.images?.find(i => i.ratio === '16_9' && i.height > 700)?.url,
     })),
     endDate: discovery.dates.end?.dateTime,
-    image: discovery.images?.find(i => i.ratio == '16_9' && i.height > 700)?.url,
+    image: discovery.images?.find(i => i.ratio === '16_9' && i.height > 700)?.url,
     setlist: [],
     source: ConcertSource.DISCOVERY,
     startDate: discovery.dates.start.dateTime ?
         new Date(discovery.dates.start.dateTime) :
         new Date(`${discovery.dates.start.localDate}T${discovery.dates.start.localTime || '00:00:00'}`),
-    tags: genreTags,
+    tags: Array.from(genreTags.values()),
     ticketInfo: {
       url: discovery.url,
       priceRange: discovery.priceRanges ? {
